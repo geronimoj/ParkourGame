@@ -1,0 +1,15 @@
+{
+    "name": "General",
+    "references": [
+        "GUID:e0fe8be860ca7404fb834864f7c7d355"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
