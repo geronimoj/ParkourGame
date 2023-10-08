@@ -26,7 +26,6 @@ public class Vault : VaultBase
     private VaultType type;
 
     private bool actionInputPressed = false;
-    private int transitionIndex = 0;
     private Vector3 camOriginalPositionOffset = Vector3.zero;
 
     protected override void StateStart(ref PlayerController ctrl)
@@ -82,7 +81,7 @@ public class Vault : VaultBase
                 }
                 else
                 {   //Since we must be in the middle of the vault, enable the jump transition
-                    ignoreTransition[transitionIndex] = false;
+                    ToggleTransition(typeof(DidJump), true);
                     //If the player previously pressed the jump key while in this state, force the next jump since the input will not be recorded as a new input for the DidJump transition
                     if (actionInputPressed)
                         ctrl.ForceJump = true;
@@ -119,10 +118,6 @@ public class Vault : VaultBase
             {
                 actionInputPressed = false;
                 type = VaultType.MonkeyVault;
-                //Find the DoJump transition index
-                for (int i = 0; i < transitions.Length; i++)
-                    if (transitions[i] as DidJump != null)
-                        transitionIndex = i;
             }
             else if (InputManager.GetInput("Grab") != 0
                 //Make sure we can perform the switch vault or 180 vault.
@@ -160,11 +155,6 @@ public class Vault : VaultBase
                 ctrl.colInfo.PositionOffset -= offsetToApply;
                 ctrl.camFol.positionOffset = -offsetToApply;
                 camOriginalPositionOffset = ctrl.camFol.positionOffset;
-                //Now the players height is correct!
-                //Find the AtLedge transition index
-                for (int i = 0; i < transitions.Length; i++)
-                    if (transitions[i] as SwitchVaultToLedgeGrab != null)
-                        transitionIndex = i;
 
                 //NOTE: IF ATLEDGE TRANSITION IS EVER CHANGED TO USE ctrl.colInfo.GetOriginPosition() INSTEAD OF ctrl.transform.position
                 //THIS WILL HAVE TO BE UPDATED.
@@ -172,10 +162,10 @@ public class Vault : VaultBase
         }
 
         //Check if we have finished the vault. We have to do this here because otherwise the this check will never be true since the player moves after the affects of CameraEffects
-        if (type == VaultType.SwitchVault && ignoreTransition[transitionIndex] && !Physics.SphereCast(ctrl.colInfo.GetOriginPosition(), ctrl.colInfo.TrueRadius, Vector3.down, out _,ctrl.colInfo.Height + originalLowerHeight))
+        if (type == VaultType.SwitchVault && TransitionEnabled(typeof(SwitchVaultToLedgeGrab)) && !Physics.SphereCast(ctrl.colInfo.GetOriginPosition(), ctrl.colInfo.TrueRadius, Vector3.down, out _,ctrl.colInfo.Height + originalLowerHeight))
         {
             //This enables the AtLedge transition which should be checked just before OnGroundElseAirborne
-            ignoreTransition[transitionIndex] = false;
+            ToggleTransition(typeof(SwitchVaultToLedgeGrab), false);
 #if UNITY_EDITOR
             Debug.DrawRay(ctrl.colInfo.GetLowestPoint(), Vector3.up, Color.green,10f);
 #endif

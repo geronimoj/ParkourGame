@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.Transitions;
 
 /// <summary>
 /// Checks if the player wants to jump
 /// </summary>
 [CreateAssetMenu(fileName = "DidJump", menuName = "Transitions/DidJump", order = 3)]
-public class DidJump : Transition
+public class DidJump : Transition<PlayerController>
 {   
     /// <summary>
     /// Extra horizontal speed given to the player upon jumping

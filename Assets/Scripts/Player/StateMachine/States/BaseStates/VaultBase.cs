@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.States;
 /// <summary>
 /// The base for the players regular vault.
 /// </summary>
 [CreateAssetMenu(fileName = "VaultBase", menuName = "States/VaultBase", order = 0)]
-public class VaultBase : State
+public class VaultBase : State<PlayerController>
 {
     /// <summary>
     /// The speed at which the player moves during this state. This is still limited by max hoz speed
@@ -41,20 +42,6 @@ public class VaultBase : State
             return totalMoveDist;
         }
     }
-    /// <summary>
-    /// The index of onGround on this state. Is automatically assigned when entering the state
-    /// </summary>
-    private int onGroundIndex = 0;
-    /// <summary>
-    /// Returns the index of the onGroundElseAirborne transition. If there is no OnGroundElseAirborne, defaults to 0 probably or whatever it was when it was previously called
-    /// </summary>
-    protected int OnGroundIndex
-    {
-        get
-        {
-            return onGroundIndex;
-        }
-    }
 
     /// <summary>
     /// Called when the state is entered. YOU NEED TO SET MoveDist
@@ -67,12 +54,8 @@ public class VaultBase : State
     {   
         //Make sure we don't have any vertical speed
         ctrl.VertSpeed = 0;
-        //Find the OnGround_ElseAirborne index
-        for (int i = 0; i < transitions.Length; i++)
-            if (transitions[i] as OnGround_ElseAirborne != null)
-                onGroundIndex = i;
         //Then set it to be ignored
-        ignoreTransition[onGroundIndex] = true;
+        ToggleTransition(typeof(OnGround_ElseAirborne), true);
         //Set the players speed to the vault speed
         ctrl.direction.HozSpeed = moveSpeedDuringState;
         //Call any derived functions stuffs
@@ -104,7 +87,7 @@ public class VaultBase : State
         if (moveDist <= 0)
         {
             //Exit
-            ignoreTransition[onGroundIndex] = false;
+            ToggleTransition(typeof(OnGround_ElseAirborne), false);
         }
     }
     /// <summary>
@@ -128,6 +111,6 @@ public class VaultBase : State
         //Reduce the distance left to move
         moveDist -= moveVec.magnitude;
         //Move the player
-        c.MoveTo(moveVec);
+        c.Move(moveVec);
     }
 }

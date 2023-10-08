@@ -1,21 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.States;
+using CustomController;
 
 /// <summary>
 /// The state for movement on a ledge
 /// </summary>
 [CreateAssetMenu(fileName = "LedgeMove", menuName = "States/OnLedge", order = 5)]
-public class LedgeMove : State
+public class LedgeMove : State<PlayerController>
 {   
-    /// <summary>
-    /// The index of the DidJump transition
-    /// </summary>
-    private int didJumpIndex = 0;
-    /// <summary>
-    /// The index of the DoClamber transition
-    /// </summary>
-    private int doClamberLedgeIndex = 0;
     /// <summary>
     /// Sets the players horizontal and vertical speed to 0
     /// </summary>
@@ -25,16 +19,6 @@ public class LedgeMove : State
         base.StateStart(ref ctrl);
         ctrl.VertSpeed = 0;
         ctrl.HozSpeed = 0;
-        //Loop through the transitions and find, if any, of the transitions are DidJump and DoClamberLedge.
-        //We need to know them for later
-        for (int i = 0; i < transitions.Length; i++)
-        {   //Is this transition DidJump?
-            if ((transitions[i] as DidJump) != null)
-                didJumpIndex = i;
-            //Is this transition DoClamberLedge?
-            else if ((transitions[i] as DoClamberLedge) != null)
-                doClamberLedgeIndex = i;
-        }
     }
     /// <summary>
     /// Moves the player along the ledge if they made an input.
@@ -53,13 +37,13 @@ public class LedgeMove : State
         //If the player pressed space, is looking into the wall and there is space above the wall for the player, pull the player on top of the wall
         if (Vector3.Dot(forward, ctrl.CheckDir) >= 0)
         {   //The player is looking into the wall
-            ignoreTransition[didJumpIndex] = true;
+            ToggleTransition(typeof(DidJump), true);
             //Make sure there is space above the player if they want to pull up
-            
-            if (!ColliderInfo.Cast(ctrl.colInfo, ctrl.CheckDir * (ctrl.colInfo.Radius * 2), Vector3.up * (ctrl.colInfo.Radius + ctrl.colInfo.Height + ctrl.colInfo.CollisionOffset)))
-                ignoreTransition[doClamberLedgeIndex] = false;
+
+            if (!CustomCollider.Cast(ctrl.colInfo, ctrl.CheckDir * (ctrl.colInfo.Radius * 2), Vector3.up * (ctrl.colInfo.Radius + ctrl.colInfo.Height + ctrl.colInfo.CollisionOffset)))
+                ToggleTransition(typeof(DoClamberLedge), false);
             else
-                ignoreTransition[doClamberLedgeIndex] = true;
+                ToggleTransition(typeof(DoClamberLedge), true);
 
             Vector3 right = new Vector3(ctrl.CheckDir.z, ctrl.CheckDir.y, -ctrl.CheckDir.x);
             //Do a raycast from the side of the player into the wall, continue if it returns true.
@@ -70,13 +54,13 @@ public class LedgeMove : State
                 //Do a raycast from above the player at the expected movement position, if it returns false, the ledge is still there so we are allowed to move
                 if (Physics.Raycast(ctrl.colInfo.GetHighestPoint() + moveDir, ctrl.CheckDir, ctrl.CheckDirRange + 0.01f))
                     //Move the player
-                    ctrl.MoveTo(moveDir, true);
+                    ctrl.Move(moveDir, true);
             }
         }
         else
         {   //The player is not looking into the wall so disable the pull up transition and enable jumping
-            ignoreTransition[didJumpIndex] = false;
-            ignoreTransition[doClamberLedgeIndex] = true;
+            ToggleTransition(typeof(DidJump), false);
+            ToggleTransition(typeof(DoClamberLedge), true);
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.States;
 
 /// <summary>
 /// The state used for wall climbing
 /// </summary>
 [CreateAssetMenu(fileName = "WallClimb", menuName = "States/WallClimb", order = 3)]
-public class WallClimbMove : State
+public class WallClimbMove : State<PlayerController>
 {   
     /// <summary>
     /// How long the player will wall climb for. This is calculated
@@ -30,7 +31,7 @@ public class WallClimbMove : State
         ctrl.VertSpeed = ctrl.climbSpeed;
         floatTimer = ctrl.floatTime;
 
-        ignoreTransition[0] = true;
+        ToggleTransition(typeof(OnGround_ElseAirborne), true);
     }
     /// <summary>
     /// Moves the player up the wall. Checks the players vertical speed and if there is still a wall. If so, we exit wall climb move
@@ -59,7 +60,7 @@ public class WallClimbMove : State
         {   //This is a bit un-necessary but we need it for if the player chooses to jump off of a given ledge
             ctrl.ExpectedDir = hit.normal;
             //Move the player up the wall
-            ctrl.MoveTo(ctrl.TotalVector * Time.deltaTime);
+            ctrl.Move(ctrl.TotalVector * Time.deltaTime);
         }
     }
 

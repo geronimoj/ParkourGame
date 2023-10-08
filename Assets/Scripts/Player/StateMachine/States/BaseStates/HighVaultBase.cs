@@ -161,7 +161,7 @@ public class HighVaultBase : VaultBase
             else
             {
                 //Exit
-                ignoreTransition[OnGroundIndex] = false;
+                ToggleTransition(typeof(OnGround_ElseAirborne), false);
             }
         }
 

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.Transitions;
 
 /// <summary>
 /// A transition to represent if the player should enter a wall run
 /// </summary>
 [CreateAssetMenu(fileName = "DoWallRun", menuName = "Transitions/DoWallRun", order = 7)]
-public class DoWallRun : Transition
+public class DoWallRun : Transition<PlayerController>
 {
     /// <summary>
     /// Returns true if the player should perform a wall run

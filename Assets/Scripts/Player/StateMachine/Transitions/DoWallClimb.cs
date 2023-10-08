@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.Transitions;
 
 /// <summary>
 /// Checks if we should transition into a wall climb
 /// </summary>
 [CreateAssetMenu(fileName = "DoWallClimb", menuName = "Transitions/DoWallClimb", order = 4)]
-public class DoWallClimb : Transition
+public class DoWallClimb : Transition<PlayerController>
 {
     /// <summary>
     /// Checks if the player should perform a wall climb

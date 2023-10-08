@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.States;
 
 /// <summary>
 /// The state for being in a wall run
 /// </summary>
 [CreateAssetMenu(fileName = "WallRunMove", menuName ="States/WallRun", order = 3)]
-public class WallRun : State
+public class WallRun : State<PlayerController>
 {   
     /// <summary>
     /// Forcefully rotates the players camera to look parallel to the wall. Makes sure we are setup for vertical movement
@@ -28,7 +29,7 @@ public class WallRun : State
         {   //Reduce our vertical speed but with half the gravity
             ctrl.VertSpeed -= (ctrl.Gravity / 2) * Time.deltaTime;
             //Move them along currentDir. The horizontal plane is multiplied by hozSpeed but the y axis is multiplied by vertSpeed
-            ctrl.MoveTo(ctrl.TotalVector * Time.deltaTime);
+            ctrl.Move(ctrl.TotalVector * Time.deltaTime);
         }
         else
         {   //There is no wall to wall run on so re-enable all the transitions

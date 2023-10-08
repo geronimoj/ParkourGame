@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.Transitions;
 
 /// <summary>
 /// Checks if the Quick Turn input was recently pressed
 /// </summary>
 [CreateAssetMenu(fileName = "QuickTurn", menuName = "Transitions/QuickTurn", order = 7)]
-public class QuickTurn : Transition
+public class QuickTurn : Transition<PlayerController>
 {
     /// <summary>
     /// Returns true when the Quick Turn input was pressed

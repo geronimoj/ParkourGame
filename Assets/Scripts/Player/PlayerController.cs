@@ -3,16 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using CustomController;
 
 /// <summary>
 /// Contains all the information for the player. Contains code that should be used to Move and rotate the player
 /// </summary>
-[RequireComponent(typeof(StateManager))]
-public class PlayerController : MonoBehaviour
+[RequireComponent(typeof(PlayerStateMachine))]
+public class PlayerController : CustomController.PlayerController
 {
     #region Variables
-    //Player Size Information
-    public ColliderInfo colInfo;
     //Acceleration Information
     #region Speed
     /// <summary>
@@ -151,6 +150,8 @@ public class PlayerController : MonoBehaviour
             return minTurnTime;
         }
     }
+
+    [NonSerialized] public float xEulerRotation = 0f;
     #endregion
     /// <summary>
     /// The time between button presses in which the player will not slow down
@@ -169,7 +170,6 @@ public class PlayerController : MonoBehaviour
     }
 
     #region Movement
-    public MovementDirection direction;
     /// <summary>
     /// Get or set the horizontal speed
     /// </summary>
@@ -276,12 +276,6 @@ public class PlayerController : MonoBehaviour
             expectedDir = value.normalized;
         }
     }
-#if UNITY_EDITOR
-    /// <summary>
-    /// Used for debugging information
-    /// </summary>
-    private Vector3 test;
-#endif
     /// <summary>
     /// The previous point the player was standing on the ground. Used for checking if the player should fall off a ledge
     /// </summary>
@@ -338,12 +332,12 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// The point to teleport the player too if their y position is too low
     /// </summary>
-    public Vector3 respawnPosition;
+    public Transform respawnPosition;
     //Class References
     /// <summary>
     /// A reference to the StateManager
     /// </summary>
-    private StateManager stateManager = null;
+    private PlayerStateMachine stateManager = null;
     /// <summary>
     /// A reference to the cameraFollower script on the camera
     /// </summary>
@@ -529,7 +523,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        stateManager = GetComponent<StateManager>();
+        stateManager = GetComponent<PlayerStateMachine>();
 #if UNITY_STANDALONE_WIN
         Cursor.lockState = CursorLockMode.Locked;
         sensitivity *= 10;
@@ -543,11 +537,6 @@ public class PlayerController : MonoBehaviour
         if (speedText == null)
             Debug.LogWarning("No speedometer set");
     }
-
-    private void Start()
-    {
-        colInfo.SetTransform(transform);
-    }
     /// <summary>
     /// Rotates the player and calls the update function for the current state
     /// </summary>
@@ -555,7 +544,7 @@ public class PlayerController : MonoBehaviour
     {
         //Check the player hasn't fallen to far
         if (transform.position.y < -100f)
-            transform.position = respawnPosition;
+            transform.position = respawnPosition.position;
 
         if (speedText != null)
             speedText.text = "Speed: " + direction.TotalSpeed.ToString("F2");
@@ -567,8 +556,11 @@ public class PlayerController : MonoBehaviour
             RotateTo(targetRotation);
 
         if (stateManager != null)
+        {
+            PlayerController @this = this;
             //Calls the current state
-            stateManager.DoState(this);
+            stateManager.DoState(ref @this);
+        }
     }
     /// <summary>
     /// Returns a new direction assuming transform.forward represent x = 0, z = 1
@@ -587,134 +579,6 @@ public class PlayerController : MonoBehaviour
         curAngle += angleDif;
 
         return new Vector3(Mathf.Sin(curAngle * Mathf.Deg2Rad), 0, Mathf.Cos(curAngle * Mathf.Deg2Rad));
-    }
-
-    /// <summary>
-    /// Moves the player. Contains all collision detection required
-    /// </summary>
-    /// <param name="dir">The direction with a magnitude of distance the player should be moved</param>
-    /// <param name="cancelOnFail">If true, the player will not be moved if dir is changed</param>
-    public void MoveTo(Vector3 dir, bool cancelOnFail = false)
-    {   
-#if UNITY_EDITOR
-        test = dir;
-#endif
-        RaycastHit[] hits;
-        //Make sure we have a direction to move in
-        if (dir != Vector3.zero)
-        {
-            //Get the collisions
-            hits = MoveToRaycasts(dir, out int offsetIndex);
-
-            bool updateHitInfo = false;
-            int attempts = 0;
-            //Loop through the collisions and adjust the current movement direction so that it is not pointing into any normals
-            for (int i = 0; (i < hits.Length || updateHitInfo); i++)
-            {   //Ensure we have hits as updateHitInfo can enter this loop even with a length of 0
-                if (hits.Length == 0)
-                    break;
-                //Reset the index and don't update hit info. this is done so that we loop through all hits again
-                if (updateHitInfo)
-                {
-                    updateHitInfo = false;
-                    i = 0;
-                }
-
-                attempts++;
-                if (attempts > 99)
-                {
-                    Debug.LogError("Could not solve for collision response. Not moving character");
-                    return;
-                }
-                //Make sure aren't colliding with ourself
-                if (hits[i].distance != 0 && hits[i].point != Vector3.zero)
-                {
-                    float dot = Vector3.Dot(hits[i].normal, dir);
-                    //Make sure we are heading into the normal
-                    if (dot < 0)
-                    {   //If we can't move there, exit if this bool is true
-                        if (cancelOnFail)
-                            return;
-                        //Get a vector from the point, to our raycast origin
-                        Vector3 curNew = colInfo.GetCenteralPoint(hits[i].point, hits[i].normal) - hits[i].point;
-                        //Get the dot product against the normal (its literally dot that we calculated earlier but positive)
-                        dot = Vector3.Project(dir, hits[i].normal).magnitude;
-                        //Subtract the dot product from are calculated vector to only get the overshooting amount.
-                        dot -= Vector3.Project(curNew, hits[i].normal).magnitude;
-                        float dist = colInfo.Radius + colInfo.CollisionOffset;
-                        if (dot > -dist)
-                        {
-                            //We then apply this as a vector along the normal of the hit surface with a bit of extra stuff to adjust the movement vector away from the wall
-                            dir += hits[i].normal * (dist + dot);
-                            //Tell ourself to update the movement information
-                            updateHitInfo = true;
-                        }
-                    }
-                    //This is just to make sure that the last hit check actually gets updated
-                    if (updateHitInfo)
-                    {
-                        hits = MoveToRaycasts(dir, out offsetIndex);
-                    }
-                }
-                else
-                {
-                    if (i < offsetIndex)
-                        //If this debug message is being called, we have a big problem
-                        Debug.LogWarning("In collider: " + hits[i].transform.gameObject.name);
-                    else
-                        //This Debug message is ok to see
-                        Debug.LogWarning("Too close to surface: " + hits[i].transform.gameObject.name);
-                }
-            }
-        }
-#if UNITY_EDITOR
-        //Draw the movement and then move us along it
-        Debug.DrawLine(colInfo.GetLowestPoint(), colInfo.GetLowestPoint() + dir, Color.magenta, 20f);
-#endif
-        transform.Translate(dir, Space.World);
-        //Do a raycast down to check if we are on the ground
-        hits = ColliderInfo.CastAllWithOffset(colInfo, colInfo.GravityDirection * 1e-3f);
-        //Loop through the downwards raycast results and check if any of them meet the on ground conditions
-        for (int i = 0; i < hits.Length; i++)
-            if (colInfo.ValidSlope(hits[i].normal))
-            {   //If we just entered onGround, then change our movement vector to be that direction
-                //This exists to help with exiting from slopes we can't stand on. However, in turn, its causes other issues with going up small un-ramped bumps, 
-                //causing the player to drift on them. So we also check that the point we hit is below us, so that small ledges at our height aren't affected
-                if (!colInfo.OnGround && (hits[i].point - colInfo.GetLowestPoint()).y < 0)
-                    direction.HozDirection = dir.normalized;
-                //We found one of them so set us to be on the ground, and set previous ground
-                colInfo.OnGround = true;
-                PreviousGround = hits[i].point;
-                return;
-            }
-        //Set us to not be on the ground. We can only hit this if the previous checks failed
-        colInfo.OnGround = false;
-    }
-    /// <summary>
-    /// Performs the raycasts to detect collisions for MoveTo
-    /// </summary>
-    /// <param name="dir">The direction & magnitude of the raycasts</param>
-    /// <param name="offsetIndex">The index that the output hitInfo is from the second raycast instead of the first</param>
-    /// <returns>An array containing hitInfo from two raycasts. One with radius, the other with radius + offset</returns>
-    private RaycastHit[] MoveToRaycasts(Vector3 dir, out int offsetIndex)
-    {   //Raycast for the players regular collider
-        RaycastHit[] regular = ColliderInfo.CastAll(colInfo, dir);
-        //Raycast for the players collider with the offset
-        RaycastHit[] withOffset = ColliderInfo.CastAllWithOffset(colInfo, dir);
-        //Sort them by distance. Closest ones should be checked first
-        System.Array.Sort(regular, Conditions.CompareDist);
-        System.Array.Sort(withOffset, Conditions.CompareDist);
-        //Combine the raycast results
-        RaycastHit[] total = new RaycastHit[regular.Length + withOffset.Length];
-        for (int i = 0; i < total.Length; i++)
-        {
-            if (i >= regular.Length)
-                total[i] = withOffset[i - regular.Length];
-            else
-                total[i] = regular[i];
-        }
-        offsetIndex = regular.Length;
-        return total;
     }
     /// <summary>
     /// Rotates the player based on the Inputs Mouse Y and Mouse X
@@ -742,7 +606,7 @@ public class PlayerController : MonoBehaviour
         Vector3 rotation = transform.eulerAngles;
         //Still need to clamp the cameras rotation
         float xChange = -InputManager.GetInput("Mouse Y") * (sensitivity * yFactor) * Time.deltaTime;
-        float x = (transform.eulerAngles.x) + xChange;
+        float x = xEulerRotation + xChange;
         x -= 80;
         if (x < 180 && x > 0)
             x = 0;
@@ -751,7 +615,7 @@ public class PlayerController : MonoBehaviour
             x += 360;
         x = Mathf.Clamp(x, 200, 360);
         x += 80;
-        rotation.x = x;
+        xEulerRotation = x;
 
         rotation.y += InputManager.GetInput("Mouse X") * (sensitivity * xFactor) * Time.deltaTime;
         rotation.y %= 360;
@@ -835,19 +699,4 @@ public class PlayerController : MonoBehaviour
         if (doClamp)
             direction.HozSpeed = Mathf.Clamp(HozSpeed, 0, direction.MaxHozSpeed);
     }
-    #region UNITYEDITOR
-#if UNITY_EDITOR
-    /// <summary>
-    /// Draw debugging information
-    /// </summary>
-    private void OnDrawGizmosSelected()
-    {
-        colInfo.SetTransform(transform);
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.position + test);
-        Gizmos.DrawWireSphere(colInfo.GetUpperPoint() + test, colInfo.Radius);
-        Gizmos.DrawWireSphere(colInfo.GetLowerPoint() + test, colInfo.Radius);
-    }
-#endif
-    #endregion
 }

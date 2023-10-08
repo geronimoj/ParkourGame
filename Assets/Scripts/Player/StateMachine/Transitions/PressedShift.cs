@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.Transitions;
 
 /// <summary>
 /// Checks if the Crouch input was recently pressed
 /// </summary>
 [CreateAssetMenu(fileName = "PressedShift", menuName = "Transitions/PressedShift", order = 9)]
-public class PressedShift : Transition
+public class PressedShift : Transition<PlayerController>
 {
     /// <summary>
     /// Returns true when the Crouch input was pressed

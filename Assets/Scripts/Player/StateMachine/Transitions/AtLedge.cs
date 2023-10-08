@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.Transitions;
 /// <summary>
 /// Checks if the player can grab a ledge
 /// </summary>
 [CreateAssetMenu(fileName = "AtLedge", menuName = "Transitions/AtLedge", order = 6)]
-public class AtLedge : Transition
+public class AtLedge : Transition<PlayerController>
 {   
     /// <summary>
     /// Checks if the player is close enough to a ledge to grab it
@@ -52,7 +53,7 @@ public class AtLedge : Transition
             //Calculate the positions horizontal position
             move -= ctrl.CheckDir *  ctrl.colInfo.TrueRadius;
             //Move the player to the destination
-            ctrl.MoveTo(move - ctrl.transform.position);
+            ctrl.Move(move - ctrl.transform.position);
 
             return true;
         }

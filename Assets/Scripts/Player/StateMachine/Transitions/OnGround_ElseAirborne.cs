@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.Transitions;
 
 [CreateAssetMenu(fileName = "OnGroundElseAirborne", menuName = "Transitions/OnGroundElseAirborne", order = 0)]
-public class OnGround_ElseAirborne : If_ElseTransition
+public class OnGround_ElseAirborne : If_ElseTransition<PlayerController>
 {
     protected override bool Condition(ref PlayerController ctrl)
     {

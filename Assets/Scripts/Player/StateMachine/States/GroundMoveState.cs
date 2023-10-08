@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.States;
+using CustomController;
 
 /// <summary>
 /// The state for moving along the ground
 /// </summary>
 [CreateAssetMenu(fileName = "GroundMove", menuName = "States/GroundMove State", order = 1)]
-public class GroundMoveState : State
+public class GroundMoveState : State<PlayerController>
 {
     private float timer = 0;
     /// <summary>
@@ -108,11 +110,11 @@ public class GroundMoveState : State
         //Calculate the movement vector
         moveVec = ctrl.TotalVector * Time.deltaTime;
         //Check if we should move the player up or down the surface.
-        if (ColliderInfo.CastWithOffset(ctrl.colInfo, Vector3.down * (ctrl.StepHeight * 2), Vector3.up * ctrl.StepHeight + moveVec, out RaycastHit hit) && ctrl.colInfo.ValidSlope(hit.normal))
+        if (CustomCollider.CastWithOffset(ctrl.colInfo, Vector3.down * (ctrl.StepHeight * 2), Vector3.up * ctrl.StepHeight + moveVec, out RaycastHit hit) && ctrl.colInfo.ValidSlope(hit.normal))
             moveVec.y = (hit.point + hit.normal * (ctrl.colInfo.Radius + ctrl.colInfo.CollisionOffset)).y - ctrl.colInfo.GetLowerPoint().y;
 
         //Move the character
-        ctrl.MoveTo(moveVec);
+        ctrl.Move(moveVec);
         ctrl.CheckDir = ctrl.Direction;
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using StateMachine.States;
 
 /// <summary>
 /// Move the player assuming they are airborn
 /// </summary>
 [CreateAssetMenu (fileName = "AirbornMove", menuName = "States/AirbornMove", order = 2)]
-public class AirbornMove : State
+public class AirbornMove : State<PlayerController>
 {
     /// <summary>
     /// Setup the player for vertical falling
@@ -27,6 +28,6 @@ public class AirbornMove : State
     {   //Reduce the players vertical speed by their gravity
         ctrl.VertSpeed -= ctrl.Gravity * Time.deltaTime;
         //Move them along currentDir. The horizontal plane is multiplied by hozSpeed but the y axis is multiplied by vertSpeed
-        ctrl.MoveTo(ctrl.TotalVector * Time.deltaTime);
+        ctrl.Move(ctrl.TotalVector * Time.deltaTime);
     }
 }

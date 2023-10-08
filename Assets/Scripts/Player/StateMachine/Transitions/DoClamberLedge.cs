@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using StateMachine.Transitions;
 /// <summary>
 /// Checks if the player can climb onto a ledge they are currently grabbing
 /// </summary>
 [CreateAssetMenu(fileName = "DoClamber", menuName = "Transitions/DoClamber", order = 7)]
-public class DoClamberLedge : Transition
+public class DoClamberLedge : Transition<PlayerController>
 {
     /// <summary>
     /// Can the player climb up onto the ledge

@@ -42,9 +42,8 @@ public class HighVaultTest : HighVaultBase
       {
           camFol.positionOffset = Vector3.Lerp(Vector3.zero, ctrl.colInfo.PositionOffset, 1 - ToGroundPercentComplete);
             for (int i = 0; i < transitions.Length && spinVault; i++)
-                if (transitions[i] as SwitchVaultToLedgeGrab)
-                    ignoreTransition[i] = false;
-      }
+                ToggleTransition(typeof(SwitchVaultToLedgeGrab), false);
+        }
 
         if (spinVault && OverPercentComplete > 0.9f)
             ctrl.ForceRotate((Mathf.Atan2(-ctrl.direction.HozDirection.x, -ctrl.direction.HozDirection.z) * Mathf.Rad2Deg) % 360);
