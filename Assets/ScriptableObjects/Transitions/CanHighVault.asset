@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CanHighVault
   m_EditorClassIdentifier: 
   targetState: {fileID: 11400000, guid: 5ee0c14bb3d08f1489429a72e1c853b3, type: 2}
-  ifState: {fileID: 11400000, guid: 5ee0c14bb3d08f1489429a72e1c853b3, type: 2}
-  elseIfState: {fileID: 0}
+  _ifState: {fileID: 11400000, guid: 5ee0c14bb3d08f1489429a72e1c853b3, type: 2}
+  _elseIfState: {fileID: 0}
   checkDist: 1.5
   checkLowerRange: 1.25
   checkUpperRange: 1.9
