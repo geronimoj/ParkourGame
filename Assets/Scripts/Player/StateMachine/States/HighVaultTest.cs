@@ -42,7 +42,7 @@ public class HighVaultTest : HighVaultBase
       {
           camFol.positionOffset = Vector3.Lerp(Vector3.zero, ctrl.colInfo.PositionOffset, 1 - ToGroundPercentComplete);
             for (int i = 0; i < transitions.Length && spinVault; i++)
-                ToggleTransition(typeof(SwitchVaultToLedgeGrab), false);
+                ToggleTransition(typeof(SwitchVaultToLedgeGrab), true);
         }
 
         if (spinVault && OverPercentComplete > 0.9f)

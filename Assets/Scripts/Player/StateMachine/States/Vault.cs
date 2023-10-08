@@ -81,7 +81,7 @@ public class Vault : VaultBase
                 }
                 else
                 {   //Since we must be in the middle of the vault, enable the jump transition
-                    ToggleTransition(typeof(DidJump), true);
+                    ToggleTransition(typeof(DidJump), false);
                     //If the player previously pressed the jump key while in this state, force the next jump since the input will not be recorded as a new input for the DidJump transition
                     if (actionInputPressed)
                         ctrl.ForceJump = true;
@@ -165,7 +165,7 @@ public class Vault : VaultBase
         if (type == VaultType.SwitchVault && TransitionEnabled(typeof(SwitchVaultToLedgeGrab)) && !Physics.SphereCast(ctrl.colInfo.GetOriginPosition(), ctrl.colInfo.TrueRadius, Vector3.down, out _,ctrl.colInfo.Height + originalLowerHeight))
         {
             //This enables the AtLedge transition which should be checked just before OnGroundElseAirborne
-            ToggleTransition(typeof(SwitchVaultToLedgeGrab), false);
+            ToggleTransition(typeof(SwitchVaultToLedgeGrab), true);
 #if UNITY_EDITOR
             Debug.DrawRay(ctrl.colInfo.GetLowestPoint(), Vector3.up, Color.green,10f);
 #endif

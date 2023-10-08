@@ -22,7 +22,7 @@ namespace StateMachine.States
         /// <summary>
         /// Any transitions this state should ignore
         /// </summary>
-        [HideInInspector]
+        [NonSerialized]
         internal bool[] ignoreTransition;
         /// <summary>
         /// The initial Start call. For anything that needs to be called globally across all states
@@ -114,7 +114,7 @@ namespace StateMachine.States
                 if (transitions[i].GetType() == transition)
                     //Ignore the transition.
                     //We could break here but I'd rather continue for other transitions of same type
-                    ignoreTransition[i] = enabled;
+                    ignoreTransition[i] = !enabled;
         }
         /// <summary>
         /// Returns the ignored state of the transition (true if the transition is being ignored)

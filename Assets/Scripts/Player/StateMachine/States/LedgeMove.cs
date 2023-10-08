@@ -37,13 +37,13 @@ public class LedgeMove : State<PlayerController>
         //If the player pressed space, is looking into the wall and there is space above the wall for the player, pull the player on top of the wall
         if (Vector3.Dot(forward, ctrl.CheckDir) >= 0)
         {   //The player is looking into the wall
-            ToggleTransition(typeof(DidJump), true);
+            ToggleTransition(typeof(DidJump), false);
             //Make sure there is space above the player if they want to pull up
 
             if (!CustomCollider.Cast(ctrl.colInfo, ctrl.CheckDir * (ctrl.colInfo.Radius * 2), Vector3.up * (ctrl.colInfo.Radius + ctrl.colInfo.Height + ctrl.colInfo.CollisionOffset)))
-                ToggleTransition(typeof(DoClamberLedge), false);
-            else
                 ToggleTransition(typeof(DoClamberLedge), true);
+            else
+                ToggleTransition(typeof(DoClamberLedge), false);
 
             Vector3 right = new Vector3(ctrl.CheckDir.z, ctrl.CheckDir.y, -ctrl.CheckDir.x);
             //Do a raycast from the side of the player into the wall, continue if it returns true.
@@ -59,8 +59,8 @@ public class LedgeMove : State<PlayerController>
         }
         else
         {   //The player is not looking into the wall so disable the pull up transition and enable jumping
-            ToggleTransition(typeof(DidJump), false);
-            ToggleTransition(typeof(DoClamberLedge), true);
+            ToggleTransition(typeof(DidJump), true);
+            ToggleTransition(typeof(DoClamberLedge), false);
         }
     }
 }

@@ -31,7 +31,7 @@ public class WallClimbMove : State<PlayerController>
         ctrl.VertSpeed = ctrl.climbSpeed;
         floatTimer = ctrl.floatTime;
 
-        ToggleTransition(typeof(OnGround_ElseAirborne), true);
+        ToggleTransition(typeof(OnGround_ElseAirborne), false);
     }
     /// <summary>
     /// Moves the player up the wall. Checks the players vertical speed and if there is still a wall. If so, we exit wall climb move
