@@ -10,6 +10,23 @@ using CustomController;
 [CreateAssetMenu(fileName = "GroundMove", menuName = "States/GroundMove State", order = 1)]
 public class GroundMoveState : State<PlayerController>
 {
+    /// <summary>
+    /// When the players speed is below this value, the player will accelerate using belowMinAcceleration
+    /// </summary>
+    private float minSpeed = 0f;
+    /// <summary>
+    /// How fast does the player accelerate when below minSpeed
+    /// </summary>
+    private float belowMinAcceleration = 0f;
+    /// <summary>
+    /// How quickly does the player accelerate when above minSpeed
+    /// </summary>
+    private float acceleration = 0f;
+    /// <summary>
+    /// How quickly does the player decellerate
+    /// </summary>
+    private float decelleration = 0f;
+
     private float timer = 0;
     /// <summary>
     /// Did we get an input this frame
@@ -45,6 +62,11 @@ public class GroundMoveState : State<PlayerController>
         //Make sure our state is in the base state
         newInput = false;
         ctrl.direction.VertSpeed = 0;
+
+        minSpeed = ctrl.MinSpeed;
+        belowMinAcceleration = ctrl.BelowMinAccel;
+        acceleration = ctrl.Acceleration;
+        decelleration = ctrl.Decelleration;
     }
     /// <summary>
     /// Moves the player horizontally. Also up and down ramps
@@ -85,12 +107,12 @@ public class GroundMoveState : State<PlayerController>
         //If we need to slowDown or we haven't gotten an input recently, decellerate, otherwise, accelerate
         if (slowDown || !gotInput && newInput)
         {   //Decellerate
-            ctrl.Accelerate(true, true);
+            Accelerate(ctrl, true, true);
             slowDownTime = (-ctrl.HozSpeed) / -ctrl.Decelleration;
         }
         else
             //Accelerate
-            ctrl.Accelerate(false, true);
+            Accelerate(ctrl, false, true);
 
         //Is the player stationary & only just made an input
         if (ctrl.HozSpeed <= 0 && newInput && gotInput)
@@ -115,5 +137,26 @@ public class GroundMoveState : State<PlayerController>
         //Move the character
         ctrl.Move(moveVec);
         ctrl.CheckDir = ctrl.Direction;
+    }
+
+    /// <summary>
+    /// Accelerates the player based on the acceleration values
+    /// </summary>
+    /// <param name="decelerate">Should the player decellerate</param>
+    /// <param name="doClamp">Should the speed be clamped between 0 and maxSpeed</param>
+    public void Accelerate(PlayerController ctrl, bool decelerate, bool doClamp = true)
+    {
+        if (decelerate)
+            //Decelerate
+            ctrl.HozSpeed -= decelleration * Time.deltaTime;
+        else
+            //Accelerate
+            if (ctrl.HozSpeed < minSpeed)
+            ctrl.HozSpeed += belowMinAcceleration * Time.deltaTime;
+        else
+            ctrl.HozSpeed += acceleration * Time.deltaTime;
+        //Make sure the caller wants the speed capped. There are some instances where this would not be wanted
+        if (doClamp)
+            ctrl.HozSpeed = Mathf.Clamp(ctrl.HozSpeed, 0, ctrl.direction.MaxHozSpeed);
     }
 }

@@ -24,6 +24,7 @@ public class PlayerController : CustomController.PlayerController
     /// </summary>
     public float Acceleration
     {
+        get => acceleration;
         set
         {
             acceleration = value;
@@ -39,6 +40,7 @@ public class PlayerController : CustomController.PlayerController
     /// </summary>
     public float BelowMinAccel
     {
+        get => belowMinAcceleration;
         set
         {
             belowMinAcceleration = value;
@@ -74,6 +76,7 @@ public class PlayerController : CustomController.PlayerController
     /// </summary>
     public float MinSpeed
     {
+        get => minSpeed;
         set
         {
             minSpeed = value;
@@ -678,25 +681,5 @@ public class PlayerController : CustomController.PlayerController
         forceRotateSpeed = Mathf.Abs(angleInDeg) / forceRotateTime;
         //Begin the rotation
         rotateToAngle = true;
-    }
-    /// <summary>
-    /// Accelerates the player based on the acceleration values
-    /// </summary>
-    /// <param name="decelerate">Should the player decellerate</param>
-    /// <param name="doClamp">Should the speed be clamped between 0 and maxSpeed</param>
-    public void Accelerate(bool decelerate, bool doClamp = true)
-    {
-        if (decelerate)
-            //Decelerate
-            HozSpeed -= decelleration * Time.deltaTime;
-        else
-            //Accelerate
-            if (HozSpeed < minSpeed)
-            HozSpeed += belowMinAcceleration * Time.deltaTime;
-            else
-            HozSpeed += acceleration * Time.deltaTime;
-        //Make sure the caller wants the speed capped. There are some instances where this would not be wanted
-        if (doClamp)
-            direction.HozSpeed = Mathf.Clamp(HozSpeed, 0, direction.MaxHozSpeed);
     }
 }
