@@ -42,7 +42,6 @@ public class GroundMoveState : State<PlayerController>
     /// <param name="ctrl">A reference to the player controller</param>
     protected override void StateStart(ref PlayerController ctrl)
     {
-        Debug.Log("OnGround");
         //Make sure our state is in the base state
         newInput = false;
         ctrl.direction.VertSpeed = 0;

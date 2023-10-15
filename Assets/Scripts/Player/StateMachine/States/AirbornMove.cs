@@ -15,7 +15,6 @@ public class AirbornMove : State<PlayerController>
     /// <param name="ctrl">A reference to the player controller</param>
     protected override void StateStart(ref PlayerController ctrl)
     {
-        Debug.Log("Airborne");
         //We assign expectedDir first so that we can use it for checks with DoWallClimb
         ctrl.ExpectedDir = ctrl.Direction;
         ctrl.CheckDir = ctrl.Direction;

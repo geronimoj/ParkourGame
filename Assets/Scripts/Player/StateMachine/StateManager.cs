@@ -172,6 +172,7 @@ namespace StateMachine
                 if (trans[i].ShouldTransition(ref ctrl))
                 {
                     //Swap target and return true
+                    Debug.LogFormat("Transition Passed: {0}", trans[i].name);
                     _target = trans[i].targetState;
                     return true;
                 }
@@ -195,6 +196,8 @@ namespace StateMachine
 #endif
             _current = _target;
             _target = null;
+
+            Debug.LogFormat("State: {0}", _current.name);
             //call state on our new state
             _current.State_Start(ref obj);
         }
