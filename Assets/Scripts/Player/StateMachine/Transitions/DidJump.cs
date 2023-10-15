@@ -14,6 +14,10 @@ public class DidJump : Transition<PlayerController>
     /// </summary>
     public float extraJumpSpeed = 3;
     /// <summary>
+    /// Multiplier applied to player horizontal speed when jumping
+    /// </summary>
+    public float hozSpeedMultiplier = 1f;
+    /// <summary>
     /// Did the player press the space bar
     /// </summary>
     /// <param name="ctrl">A reference to the player controller</param>
@@ -27,7 +31,10 @@ public class DidJump : Transition<PlayerController>
             ctrl.Direction = ctrl.ExpectedDir;
             //Apply the extra jump speed and 
             //clamp the speed completely
-            ctrl.HozSpeed += extraJumpSpeed;
+            float speed = ctrl.HozSpeed;
+            speed += extraJumpSpeed;
+            speed *= hozSpeedMultiplier;
+            ctrl.HozSpeed = speed;
             //Set the jump force
             ctrl.VertSpeed = ctrl.JumpForce;
             Debug.Log("Jump");

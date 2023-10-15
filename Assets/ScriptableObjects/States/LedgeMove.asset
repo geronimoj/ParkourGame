@@ -14,12 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transitions:
   - {fileID: 11400000, guid: 17d31cdb1214b624ea4c5a1a764099b6, type: 2}
-  - {fileID: 11400000, guid: 2cd03bb87396a1c4d94aa8fbb66085bc, type: 2}
+  - {fileID: 11400000, guid: 424a523762ebc7340931fdd4ba91a42b, type: 2}
   - {fileID: 11400000, guid: c4e470f0ec92208439d2447ee702aeff, type: 2}
   - {fileID: 11400000, guid: 1a20ba4610ecd134396859d2228c253b, type: 2}
   - {fileID: 11400000, guid: 5916a5d323f2b6f4cae59dc49addbd70, type: 2}
   IgnoreTransitions: 0101010000
-  ignoreTransition: 0101000000
-  shimmySpeed: 1
-  didJumpIndex: 1
-  doClamberLedgeIndex: 2

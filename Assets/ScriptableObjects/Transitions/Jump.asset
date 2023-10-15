@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d6d7e5819baa34486cb3e362fd1be4, type: 3}
-  m_Name: DidJump
+  m_Name: Jump
   m_EditorClassIdentifier: 
   targetState: {fileID: 11400000, guid: 243084c5558179f48b986776e0174144, type: 2}
-  ignoreMe: 0
-  extraJumpSpeed: 3
+  extraJumpSpeed: 0
+  hozSpeedMultiplier: 1.1

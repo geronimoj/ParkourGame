@@ -18,16 +18,16 @@ public class AtLedge : Transition<PlayerController>
         if (InputManager.GetInput("Crouch") != 0)
             return false;
 
-        Vector3 checkDir;
+        // Get the horizontal direct we should check
+        Vector3 checkDir = ctrl.CheckDir;
+        checkDir.y = 0;
         //If checkDir is not assigned a direction, use the players transform.forward
-        if (ctrl.CheckDir == Vector3.zero)
+        if (checkDir == Vector3.zero)
         {
             checkDir = ctrl.transform.forward;
+            checkDir.y = 0;
         }
-        else
-            checkDir = ctrl.CheckDir;
-        //Make sure checkDir is horizontal and normalised
-        checkDir.y = 0;
+        //Make sure checkDir is normalised
         checkDir.Normalize();
         //Store a vector to a position above the player
         Vector3 outPos = SetTopOfPlayer(ref ctrl);
