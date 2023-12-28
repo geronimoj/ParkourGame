@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using StateMachine.Transitions;
 
@@ -136,21 +137,21 @@ namespace StateMachine.States
         /// Returns a clone of the current state
         /// </summary>
         /// <returns></returns>
-        internal State<T> Clone()
+        internal State<T> Clone(Dictionary<State<T>, State<T>> clonedStates, Dictionary<Transition<T>, Transition<T>> clonedTransitions)
         {
             State<T> ret;
             //Check if already cloned
-            if (StateManager<T>.temp_clonedStated.ContainsKey(this))
-                ret = StateManager<T>.temp_clonedStated[this];
+            if (clonedStates.ContainsKey(this))
+                ret = clonedStates[this];
             else
             {   //Create new clone
                 ret = Instantiate(this);
-                StateManager<T>.temp_clonedStated.Add(this, ret);
+                clonedStates.Add(this, ret);
                 InternalClone(ret);
                 //Clone transitions
                 for (int i = 0; i < transitions.Length; i++)
                     if (transitions[i])
-                        transitions[i] = transitions[i].Clone();
+                        transitions[i] = transitions[i].Clone(clonedStates, clonedTransitions);
             }
 
             return ret;

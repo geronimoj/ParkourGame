@@ -19,5 +19,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5916a5d323f2b6f4cae59dc49addbd70, type: 2}
   - {fileID: 11400000, guid: 0eb42059dd3810341ba92cf26400e6e0, type: 2}
   IgnoreTransitions: 0000000001
-  ignoreTransition: 0000000001
-  jumpOffPercent: 0.1
+  cameraAngle: 5
+  jumpOffPercentage: 0.1

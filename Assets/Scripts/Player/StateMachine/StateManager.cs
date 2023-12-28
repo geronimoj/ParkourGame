@@ -215,14 +215,6 @@ namespace StateMachine
 
         #region Cloning
         /// <summary>
-        /// Temporary storage for cloned states to avoid re-cloning the same state
-        /// </summary>
-        internal static Dictionary<State<T>, State<T>> temp_clonedStated = null;
-        /// <summary>
-        /// Temporary storage for cloned transitions to avoid re-cloning the same transition
-        /// </summary>
-        internal static Dictionary<Transition<T>, Transition<T>> temp_clonedTransitions = null;
-        /// <summary>
         /// Clones the currently used states & transitions then starts using them.
         /// </summary>
         public void CloneStatesAndTransitions()
@@ -230,18 +222,14 @@ namespace StateMachine
             if (!_current)
                 return;
             //Allocate storage for tracking cloned states (only needed temporary but the states & transitions need access to them.
-            temp_clonedStated = new Dictionary<State<T>, State<T>>();
-            temp_clonedTransitions = new Dictionary<Transition<T>, Transition<T>>();
+            var clonedStates = new Dictionary<State<T>, State<T>>();
+            var clonedTransitions = new Dictionary<Transition<T>, Transition<T>>();
 
             //Clone current state
-            _current = _current.Clone();
+            _current = _current.Clone(clonedStates, clonedTransitions);
             //Clone global transitions
-            for(int i =0; i < globalTransitions.Length; i++)
-                globalTransitions[i] = globalTransitions[i].Clone();
-
-            //Clear lists as no-longer needed
-            temp_clonedStated = null;
-            temp_clonedTransitions = null;
+            for (int i = 0; i < globalTransitions.Length; i++)
+                globalTransitions[i] = globalTransitions[i].Clone(clonedStates, clonedTransitions);
         }
         #endregion
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using StateMachine.States;
 
 namespace StateMachine.Transitions
@@ -22,20 +23,20 @@ namespace StateMachine.Transitions
         /// Returns a clone of the current transition
         /// </summary>
         /// <returns></returns>
-        internal Transition<T> Clone()
+        internal Transition<T> Clone(Dictionary<State<T>, State<T>> clonedStates, Dictionary<Transition<T>, Transition<T>> clonedTransitions)
         {
             Transition<T> ret;
             //Check if already cloned
-            if (StateManager<T>.temp_clonedTransitions.ContainsKey(this))
-                ret = StateManager<T>.temp_clonedTransitions[this];
+            if (clonedTransitions.ContainsKey(this))
+                ret = clonedTransitions[this];
             else
             {   //Not cloned so clone
                 ret = Instantiate(this);
-                StateManager<T>.temp_clonedTransitions.Add(this, ret);
-                InternalClone(ret);
+                clonedTransitions.Add(this, ret);
+                InternalClone(ret, clonedStates, clonedTransitions);
                 //Clone target state
                 if (targetState)
-                    targetState = targetState.Clone();
+                    targetState = targetState.Clone(clonedStates, clonedTransitions);
             }
 
             return ret;
@@ -44,6 +45,6 @@ namespace StateMachine.Transitions
         /// Overridable function for doing any additional clone behaviour that Instantiate would not perform.
         /// </summary>
         /// <param name="cloneInstance"></param>
-        protected virtual void InternalClone(Transition<T> cloneInstance) { }
+        protected virtual void InternalClone(Transition<T> cloneInstance, Dictionary<State<T>, State<T>> clonedStates, Dictionary<Transition<T>, Transition<T>> clonedTransitions) { }
     }
 }

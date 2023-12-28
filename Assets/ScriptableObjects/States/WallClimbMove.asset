@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4aadcf28b4311d04b9b929a81ca29f9b, type: 3}
-  m_Name: WallClimb
+  m_Name: WallClimbMove
   m_EditorClassIdentifier: 
   transitions:
   - {fileID: 11400000, guid: 17d31cdb1214b624ea4c5a1a764099b6, type: 2}

@@ -58,11 +58,6 @@ public class PlayerControllerEditor : Editor
 
     #endregion
 
-    #region WallRun
-    SerializedProperty jumpOffPercent;
-    SerializedProperty camAng;
-    #endregion
-
     #region WallClimb
     SerializedProperty vertSpeedCancel;
     SerializedProperty floatTime;
@@ -120,14 +115,12 @@ public class PlayerControllerEditor : Editor
         stepHeight = serializedObject.FindProperty("stepHeight");
         pullUpSpeed = serializedObject.FindProperty("pullUpSpeed");
         shimmySpeed = serializedObject.FindProperty("shimmySpeed");
-        jumpOffPercent = serializedObject.FindProperty("jumpOffPercent");
         vertSpeedCancel = serializedObject.FindProperty("vertSpeedCancel");
         floatTime = serializedObject.FindProperty("floatTime");
         maxDist = serializedObject.FindProperty("maxDist");
         minDist = serializedObject.FindProperty("minDist");
         climbSpeed = serializedObject.FindProperty("climbSpeed");
         lowLedgeHeight = serializedObject.FindProperty("lowLedgeHeight");
-        camAng = serializedObject.FindProperty("cameraAngle");
         wallClimbAngle = serializedObject.FindProperty("wallClimbAngle");
         ledgeSpaceRequire = serializedObject.FindProperty("openSpaceRequired");
         ledgeReach = serializedObject.FindProperty("atLedgeDistance");
@@ -172,8 +165,6 @@ public class PlayerControllerEditor : Editor
                     case 0:
                         break;
                     case 1:
-                        EditorGUILayout.PropertyField(jumpOffPercent);
-                        EditorGUILayout.PropertyField(camAng);
                         break;
                     case 2:
                         EditorGUILayout.PropertyField(wallClimbAngle);

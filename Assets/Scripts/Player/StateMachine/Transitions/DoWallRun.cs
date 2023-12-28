@@ -28,10 +28,6 @@ public class DoWallRun : Transition<PlayerController>
         {   //Set our movement direction
             foundWall = true;
             ctrl.Direction = new Vector3(hit.normal.z, ctrl.Direction.y, -hit.normal.x);
-
-            //Put the camera on a slight angle if we have access to its movement script
-            if (ctrl.camFol != null)
-                ctrl.camFol.rotationOffset.z = ctrl.cameraAngle;
         }
         //Check the left side                                       //The direction of the raycast is forward with a bit of offset to point it outwards
         else if (Physics.Raycast(ctrl.transform.position - rayOffset, (forward - rayOffset * 0.01f).normalized, out hit, ctrl.HozSpeed * Time.deltaTime + ctrl.colInfo.Radius)
@@ -40,10 +36,6 @@ public class DoWallRun : Transition<PlayerController>
         {   //Set our movement direction
             foundWall = true;
             ctrl.Direction = new Vector3(-hit.normal.z, ctrl.Direction.y, hit.normal.x);
-
-            //Put the camera on a slight angle if we have access to its movement script
-            if (ctrl.camFol != null)
-                ctrl.camFol.rotationOffset.z = -ctrl.cameraAngle;
         }
 
         //If we found a wall, set are checkDir values

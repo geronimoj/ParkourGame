@@ -475,14 +475,6 @@ public class PlayerController : CustomController.PlayerController
     public float lowerGrabDist = 0.5f;
     #endregion
     /// <summary>
-    /// How much of the -checkDir should be applied to expectedDir (the direction the player will jump off), if they are looking into the wall
-    /// </summary>
-    public float jumpOffPercent = 0.1f;
-    /// <summary>
-    /// The z rotation of the camera during a wall run
-    /// </summary>
-    public float cameraAngle = 5;
-    /// <summary>
     /// If the players vertical speed is less than this value, cancel the wall climb
     /// </summary>
     public float vertSpeedCancel = -3;

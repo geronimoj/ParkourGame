@@ -48,10 +48,6 @@ public class GroundMoveState : State<PlayerController>
     /// The time since the last input
     /// </summary>
     private float inputTimer;
-    /// <summary>
-    /// A storage location for the movement vector
-    /// </summary>
-    private Vector3 moveVec = Vector3.zero;
 
     /// <summary>
     /// Set us up for moving horizontally
@@ -129,7 +125,7 @@ public class GroundMoveState : State<PlayerController>
             ctrl.SmoothDirection(ctrl.ExpectedDir, slowDownTime, ref timer);
         }
         //Calculate the movement vector
-        moveVec = ctrl.TotalVector * Time.deltaTime;
+        Vector3 moveVec = ctrl.TotalVector * Time.deltaTime;
         //Check if we should move the player up or down the surface.
         if (CustomCollider.CastWithOffset(ctrl.colInfo, Vector3.down * (ctrl.StepHeight * 2), Vector3.up * ctrl.StepHeight + moveVec, out RaycastHit hit) && ctrl.colInfo.ValidSlope(hit.normal))
             moveVec.y = (hit.point + hit.normal * (ctrl.colInfo.Radius + ctrl.colInfo.CollisionOffset)).y - ctrl.colInfo.GetLowerPoint().y;

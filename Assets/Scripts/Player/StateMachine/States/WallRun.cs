@@ -8,13 +8,31 @@ using StateMachine.States;
 /// </summary>
 [CreateAssetMenu(fileName = "WallRunMove", menuName ="States/WallRun", order = 3)]
 public class WallRun : State<PlayerController>
-{   
+{
+    [SerializeField]
+    private float cameraAngle = 5f;
+    /// <summary>
+    /// The angle to jump off at using Unit Circle values.
+    /// </summary>
+    [SerializeField]
+    private float jumpOffPercentage = 0.1f;
     /// <summary>
     /// Forcefully rotates the players camera to look parallel to the wall. Makes sure we are setup for vertical movement
     /// </summary>
     /// <param name="ctrl">A reference to the player controller</param>
     protected override void StateStart(ref PlayerController ctrl)
     {
+        // Set camera rotation.
+        Vector3 cross = Vector3.Cross(ctrl.Direction, ctrl.CheckDir);
+
+        if (ctrl.camFol != null)
+        {   // Rotate camera to face away from the wall.
+            if (Vector3.Dot(cross, Vector3.up) > 0f)
+                ctrl.camFol.rotationOffset.z = cameraAngle;
+            else
+                ctrl.camFol.rotationOffset.z = -cameraAngle;
+        }
+
         //Forcefully rotate the player to look directly forwards upon entering a wall run
         ctrl.ForceRotate((Mathf.Atan2(ctrl.Direction.x, ctrl.Direction.z) * Mathf.Rad2Deg) % 360);
     }
@@ -45,7 +63,7 @@ public class WallRun : State<PlayerController>
 
         //If we are looking into the wall, change the defualt jump angle, the direction of a jump is along ExpectedDir
         if (Vector3.Dot(forward, ctrl.CheckDir) >= 0)
-            ctrl.ExpectedDir = ctrl.Direction - ctrl.CheckDir * ctrl.jumpOffPercent;    
+            ctrl.ExpectedDir = ctrl.Direction - ctrl.CheckDir * jumpOffPercentage;    
         //We are looking away from the wall but are we looking behind ourself
         else if (Vector3.Dot(forward, ctrl.Direction) < 0)
             //If so, set our jump angle to be perpendicular to the wall

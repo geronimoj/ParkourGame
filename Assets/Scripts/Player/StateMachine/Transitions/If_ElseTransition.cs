@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using StateMachine.States;
 
 namespace StateMachine.Transitions
@@ -23,10 +24,7 @@ namespace StateMachine.Transitions
         private State<T> _elseState = null;
         public override bool ShouldTransition(ref T ctrl)
         {   //Check the condition
-            if (Condition(ref ctrl))
-                targetState = _ifState;
-            else
-                targetState = _elseState;
+            targetState = Condition(ref ctrl) ? _ifState : _elseState;
 
             return true;
         }
@@ -40,12 +38,12 @@ namespace StateMachine.Transitions
         /// Clones the IF state & ELSE state
         /// </summary>
         /// <param name="cloneInstance"></param>
-        protected override void InternalClone(Transition<T> cloneInstance)
+        protected override void InternalClone(Transition<T> cloneInstance, Dictionary<State<T>, State<T>> clonedStates, Dictionary<Transition<T>, Transition<T>> clonedTransitions)
         {   //Clone the If else states
             If_ElseTransition<T> _this = (If_ElseTransition<T>)cloneInstance;
 
-            _this._ifState = _ifState.Clone();
-            _this._elseState = _elseState.Clone();
+            _this._ifState = _ifState.Clone(clonedStates, clonedTransitions);
+            _this._elseState = _elseState.Clone(clonedStates, clonedTransitions);
         }
     }
 }
