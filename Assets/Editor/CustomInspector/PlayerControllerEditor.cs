@@ -59,12 +59,6 @@ public class PlayerControllerEditor : Editor
     #endregion
 
     #region WallClimb
-    SerializedProperty vertSpeedCancel;
-    SerializedProperty floatTime;
-    SerializedProperty maxDist;
-    SerializedProperty minDist;
-    SerializedProperty climbSpeed;
-    SerializedProperty wallClimbAngle;
     #endregion
 
     #region
@@ -115,13 +109,7 @@ public class PlayerControllerEditor : Editor
         stepHeight = serializedObject.FindProperty("stepHeight");
         pullUpSpeed = serializedObject.FindProperty("pullUpSpeed");
         shimmySpeed = serializedObject.FindProperty("shimmySpeed");
-        vertSpeedCancel = serializedObject.FindProperty("vertSpeedCancel");
-        floatTime = serializedObject.FindProperty("floatTime");
-        maxDist = serializedObject.FindProperty("maxDist");
-        minDist = serializedObject.FindProperty("minDist");
-        climbSpeed = serializedObject.FindProperty("climbSpeed");
         lowLedgeHeight = serializedObject.FindProperty("lowLedgeHeight");
-        wallClimbAngle = serializedObject.FindProperty("wallClimbAngle");
         ledgeSpaceRequire = serializedObject.FindProperty("openSpaceRequired");
         ledgeReach = serializedObject.FindProperty("atLedgeDistance");
         vaultDistance = serializedObject.FindProperty("vaultDistance");
@@ -167,12 +155,6 @@ public class PlayerControllerEditor : Editor
                     case 1:
                         break;
                     case 2:
-                        EditorGUILayout.PropertyField(wallClimbAngle);
-                        EditorGUILayout.PropertyField(climbSpeed);
-                        EditorGUILayout.PropertyField(maxDist);
-                        EditorGUILayout.PropertyField(minDist);
-                        EditorGUILayout.PropertyField(floatTime);
-                        EditorGUILayout.PropertyField(vertSpeedCancel);
                         break;
                     case 3:
                         EditorGUILayout.PropertyField(stepHeight);

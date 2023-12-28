@@ -475,32 +475,6 @@ public class PlayerController : CustomController.PlayerController
     public float lowerGrabDist = 0.5f;
     #endregion
     /// <summary>
-    /// If the players vertical speed is less than this value, cancel the wall climb
-    /// </summary>
-    public float vertSpeedCancel = -3;
-    /// <summary>
-    /// How long the player will float in the air before breaking out of the wall climb
-    /// </summary>
-    public float floatTime = 0.5f;
-    /// <summary>
-    /// The maximum distance the player can wall climb
-    /// </summary>
-    public float maxDist = 2;
-    /// <summary>
-    /// The minimum distance the player can wall climb
-    /// </summary>
-    public float minDist = 1;
-    /// <summary>
-    /// The speed at which the player climbs the wall
-    /// </summary>
-    public float climbSpeed = 5;
-    /// <summary>
-    /// The angle at which the player wall climbs over wall runs
-    /// </summary>
-    [Tooltip("The angle at which the player wall climbs over wall runs")]
-    [Range(0,90)]
-    public float wallClimbAngle = 30;
-    /// <summary>
     /// The distance into the ledge that must still be solid ground for the player to clamber up
     /// </summary>
     [Tooltip("The space required beyond a ledge to be able to climb up it")]

@@ -8,7 +8,19 @@ using StateMachine.States;
 /// </summary>
 [CreateAssetMenu(fileName = "WallClimb", menuName = "States/WallClimb", order = 3)]
 public class WallClimbMove : State<PlayerController>
-{   
+{
+    [SerializeField]
+    private float climbSpeed = 4f;
+
+    [SerializeField]
+    private float minClimbDistance = 1.5f;
+
+    [SerializeField]
+    private float maxClimbDistance = 2.5f;
+
+    [SerializeField]
+    [Tooltip("Duration the player floats for after reaching the top of the wall climb")]
+    private float floatTime = 0.5f;
     /// <summary>
     /// How long the player will wall climb for. This is calculated
     /// </summary>
@@ -26,10 +38,10 @@ public class WallClimbMove : State<PlayerController>
         //Set our movement direction to be directly up
         ctrl.Direction = Vector3.up;
         //Scale the climbing time by how much vertical speed we have left
-        climbTimer = ((ctrl.maxDist - ctrl.minDist) * (ctrl.VertSpeed / ctrl.JumpForce)) + ctrl.minDist;
-        climbTimer /= ctrl.climbSpeed;
-        ctrl.VertSpeed = ctrl.climbSpeed;
-        floatTimer = ctrl.floatTime;
+        climbTimer = ((maxClimbDistance - minClimbDistance) * (ctrl.VertSpeed / ctrl.JumpForce)) + minClimbDistance;
+        climbTimer /= climbSpeed;
+        ctrl.VertSpeed = climbSpeed;
+        floatTimer = floatTime;
 
         ToggleTransition(typeof(OnGround_ElseAirborne), false);
     }

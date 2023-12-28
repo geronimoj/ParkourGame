@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DoWallClimb
   m_EditorClassIdentifier: 
   targetState: {fileID: 11400000, guid: ff0055d6374454646ad815e4c8a02468, type: 2}
-  ignoreMe: 0
   wallClimbAngle: 30
+  requiredVerticalSpeed: 0

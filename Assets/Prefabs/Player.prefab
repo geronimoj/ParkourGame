@@ -165,9 +165,7 @@ MonoBehaviour:
   pullUpSpeed: 3
   shimmySpeed: 1
   lowerGrabDist: 0.5
-  jumpOffPercent: 0.1
-  cameraAngle: 5
-  vertSpeedCancel: -3
+  vertSpeedCancel: 0
   floatTime: 0.5
   maxDist: 2.5
   minDist: 1.5

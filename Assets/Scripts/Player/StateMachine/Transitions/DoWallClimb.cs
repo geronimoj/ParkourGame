@@ -9,6 +9,16 @@ using StateMachine.Transitions;
 [CreateAssetMenu(fileName = "DoWallClimb", menuName = "Transitions/DoWallClimb", order = 4)]
 public class DoWallClimb : Transition<PlayerController>
 {
+    [SerializeField]
+    [Range(0f, 90f)]
+    [Tooltip("The angle (into the wall) at which the player wall climbs over wall runs")]
+    private float wallClimbAngle = 30f;
+    /// <summary>
+    /// Required vertical speed to start the wall climb.
+    /// </summary>
+    [SerializeField]
+    [Tooltip("Vertical speed required to start a wall climb")]
+    private float requiredVerticalSpeed = 0f;
     /// <summary>
     /// Checks if the player should perform a wall climb
     /// </summary>
@@ -17,13 +27,13 @@ public class DoWallClimb : Transition<PlayerController>
     public override bool ShouldTransition(ref PlayerController ctrl)
     {
         //Make sure the player has vertical speed left
-        if (ctrl.VertSpeed > 0
+        if (ctrl.VertSpeed > requiredVerticalSpeed
             //Is their a wall in the direction we want to go
             && Physics.Raycast(ctrl.transform.position, ctrl.direction.HozDirection, out RaycastHit hit, ctrl.colInfo.Radius + ctrl.colInfo.CollisionOffset + ctrl.HozSpeed * Time.deltaTime + 0.01f)
             //Make sure the player is moving into the wall enough
-            && Vector3.Dot(ctrl.Direction, hit.normal) <= -Mathf.Sin(ctrl.wallClimbAngle * Mathf.Deg2Rad)
+            && Vector3.Dot(ctrl.Direction, hit.normal) <= -Mathf.Sin(wallClimbAngle * Mathf.Deg2Rad)
             //Make sure the player is looking at the wall enough
-            && Vector3.Dot(new Vector3(ctrl.transform.forward.x, 0, ctrl.transform.forward.z).normalized, hit.normal) <= -Mathf.Sin(ctrl.wallClimbAngle * Mathf.Deg2Rad)
+            && Vector3.Dot(new Vector3(ctrl.transform.forward.x, 0, ctrl.transform.forward.z).normalized, hit.normal) <= -Mathf.Sin(wallClimbAngle * Mathf.Deg2Rad)
             //Do an extra raycast directly towards the wall to update our hit info for the closest point to the wall
             && Physics.Raycast(ctrl.transform.position, -hit.normal, out hit, hit.distance + 0.01f))
         {

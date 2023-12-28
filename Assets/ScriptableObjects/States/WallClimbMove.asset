@@ -18,9 +18,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 56fd560a244901a4dbb87cf834c50819, type: 2}
   - {fileID: 11400000, guid: 1a20ba4610ecd134396859d2228c253b, type: 2}
   IgnoreTransitions: 01000000
-  ignoreTransition: 0100
-  vertSpeedCancel: -3
-  floatTime: 0.5
-  maxDist: 2.5
-  minDist: 1.5
   climbSpeed: 4
+  minClimbDistance: 1.5
+  maxClimbDistance: 2.5
+  floatTime: 0.5
