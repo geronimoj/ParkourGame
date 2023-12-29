@@ -61,6 +61,11 @@ namespace CustomController
         private Transform _standingOn = null;
         private Vector3 _offsetFromFloor = Vector3.zero;
 
+        private Vector3 _trueVelocity = Vector3.zero;
+        /// <summary>
+        /// The velocity of the player the last time they were moved.
+        /// </summary>
+        public float TrueVelocity => _trueVelocity.magnitude;
         /// <summary>
         /// Is true if the controller is on the ground
         /// </summary>
@@ -164,6 +169,8 @@ namespace CustomController
 #endif          
                 //MOVE
                 transform.Translate(dir, Space.World);
+                // Calculate actual velocity of the player
+                _trueVelocity = dir / Time.deltaTime;
 
 #if !COLLISION_CALL_IMMEDIATE
                 if (OnCollision != null)

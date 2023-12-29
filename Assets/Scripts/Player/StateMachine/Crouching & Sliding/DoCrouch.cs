@@ -11,7 +11,7 @@ public class DoCrouch : Transition<PlayerController>
 {
     public override bool ShouldTransition(ref PlayerController ctrl)
     {
-        if (InputManager.GetInput("Crouch") != 0 && ctrl.TotalSpeed <= ctrl.CrouchSpeed
+        if (InputManager.GetInput("Crouch") != 0 && ctrl.TrueVelocity <= ctrl.CrouchSpeed
             && ctrl.SetColliderState(PlayerColliderState.Crouched, false))
         {
             return true;

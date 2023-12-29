@@ -11,7 +11,7 @@ public class ExitSlide : Transition<PlayerController>
 {
     public override bool ShouldTransition(ref PlayerController ctrl)
     {   // Again, very similar to DoCrocuh & DoSlide, but we check for the button being released, while our speed is still high
-        if (InputManager.GetInput("Crouch") == 0 && ctrl.TotalSpeed > ctrl.CrouchSpeed 
+        if (InputManager.GetInput("Crouch") == 0 && ctrl.TrueVelocity > ctrl.CrouchSpeed 
             && ctrl.SetColliderState(PlayerColliderState.Standing, false))
         {
             return true;

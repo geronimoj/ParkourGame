@@ -512,7 +512,7 @@ public class PlayerController : CustomController.PlayerController
             transform.position = respawnPosition.position;
 
         if (speedText != null)
-            speedText.text = "Speed: " + direction.TotalSpeed.ToString("F2");
+            speedText.text = "Speed: " + TrueVelocity.ToString("F2");
 
         if (!rotateToAngle)
             //Rotate the player camera using the mouse
