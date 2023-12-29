@@ -11,6 +11,11 @@ public class SlideMoveState : State<PlayerController>
     [SerializeField]
     private float slideDecellerationRate = 1f;
 
+    protected override void StateStart(ref PlayerController ctrl)
+    {
+        ctrl.camFol.positionOffset.y = -0.5f;
+    }
+
     protected override void StateUpdate(ref PlayerController ctrl)
     {
         float speed = ctrl.HozSpeed;
@@ -22,5 +27,10 @@ public class SlideMoveState : State<PlayerController>
         ctrl.HozSpeed = speed;
         // Actually move the player
         ctrl.Move(ctrl.TotalVector * Time.deltaTime);
+    }
+
+    protected override void StateEnd(ref PlayerController ctrl)
+    {
+        ctrl.camFol.positionOffset.y = 0f;
     }
 }

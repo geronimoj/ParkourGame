@@ -4,13 +4,13 @@ using UnityEngine;
 using StateMachine.Transitions;
 
 /// <summary>
-/// Handles slide & crouch logic
+/// Defines if the player should enter a slide
 /// </summary>
-public class DoCrouch : Transition<PlayerController>
+public class DoSlide : Transition<PlayerController>
 {
     public override bool ShouldTransition(ref PlayerController ctrl)
-    {
-        if (InputManager.GetInput("Crouch") != 0 && ctrl.TotalSpeed <= ctrl.CrouchSpeed
+    {   // Very similar to DoCrouch with the check inverted
+        if (InputManager.GetInput("Crouch") != 0 && ctrl.TotalSpeed > ctrl.CrouchSpeed 
             && ctrl.SetColliderState(PlayerColliderState.Crouched, false))
         {
             return true;

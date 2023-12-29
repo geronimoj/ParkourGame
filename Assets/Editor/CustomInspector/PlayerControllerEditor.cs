@@ -18,6 +18,7 @@ public class PlayerControllerEditor : Editor
     
     #region Hitbox
     SerializedProperty colliderInfo;
+    SerializedProperty colliderStates;
     #endregion
 
     #region Speed
@@ -79,6 +80,7 @@ public class PlayerControllerEditor : Editor
     {
         #region Hitbox
         colliderInfo = serializedObject.FindProperty("colInfo");
+        colliderStates = serializedObject.FindProperty("colliderStates");
         #endregion
 
         #region Speed
@@ -122,6 +124,7 @@ public class PlayerControllerEditor : Editor
         {
             case 0:
                 EditorGUILayout.PropertyField(colliderInfo);
+                EditorGUILayout.PropertyField(colliderStates);
                 break;
             case 1:
                 EditorGUILayout.PropertyField(speedCap);

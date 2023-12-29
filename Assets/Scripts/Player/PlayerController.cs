@@ -462,6 +462,12 @@ public class PlayerController : CustomController.PlayerController
     /// Move speed while crouching
     /// </summary>
     public float CrouchSpeed => crouchMaxSpeed;
+
+
+    private PlayerColliderState colliderState = PlayerColliderState.Standing;
+
+    [SerializeField]
+    private ColliderStates colliderStates = new ColliderStates();
     #endregion
 
     /// <summary>
@@ -638,4 +644,39 @@ public class PlayerController : CustomController.PlayerController
         //Begin the rotation
         rotateToAngle = true;
     }
+    /// <summary>
+    /// Set the player's collider to a specific collider state
+    /// </summary>
+    /// <param name="colliderToSet">The collider state to switch too</param>
+    /// <param name="alreadyApplied">Has the collider already been applied?</param>
+    /// <returns>True if the collider was able to be changed or is already that. False otherwise</returns>
+    public bool SetColliderState(PlayerColliderState colliderToSet, bool alreadyApplied)
+    {   // No change
+        if (colliderState == colliderToSet)
+            return true;
+
+        colliderState = colliderToSet;
+        // If applied, don't re-run apply logic.
+        if (alreadyApplied)
+            return true;
+
+        if (!colliderStates.TryGetValue(colliderToSet, out CapsualInfo collider))
+            throw new NotImplementedException("Collider Type not implemented!");
+
+        bool success = colInfo.ValidateColliderChanges(collider, true, out int failReason);
+
+        if (!success)
+            Debug.LogError("Failed to change collider: " + (CapsualValidateFailReason)failReason);
+
+        return success;
+    }
+
+    [Serializable]
+    public class ColliderStates : SerializableDictionary<PlayerColliderState, CapsualInfo> { }
+}
+
+public enum PlayerColliderState
+{
+    Standing = 0,
+    Crouched = 1,
 }

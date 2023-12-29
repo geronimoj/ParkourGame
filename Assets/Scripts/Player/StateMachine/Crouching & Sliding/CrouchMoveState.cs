@@ -14,6 +14,7 @@ public class CrouchMoveState : GroundMoveState
     {
         ogMaxSpeed = ctrl.direction.MaxHozSpeed;
         ctrl.direction.MaxHozSpeed = ctrl.CrouchSpeed;
+        ctrl.camFol.positionOffset.y = -0.4f;
 
         base.StateStart(ref ctrl);
     }
@@ -22,6 +23,7 @@ public class CrouchMoveState : GroundMoveState
     {
         base.StateEnd(ref ctrl);
 
+        ctrl.camFol.positionOffset.y = 0f;
         ctrl.direction.MaxHozSpeed = ogMaxSpeed;
         ogMaxSpeed = 0f;
     }
