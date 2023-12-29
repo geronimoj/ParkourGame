@@ -6,20 +6,20 @@ using UnityEngine;
 public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
 {
     [SerializeField]
-    private List<TKey> keys = null;
+    private List<TKey> m_keys = null;
 
     [SerializeField]
-    private List<TValue> values = null;
+    private List<TValue> m_values = null;
 
     // save the dictionary to lists
     public void OnBeforeSerialize()
     {
-        keys = new List<TKey>();
-        values = new List<TValue>();
+        m_keys = new List<TKey>();
+        m_values = new List<TValue>();
         foreach (KeyValuePair<TKey, TValue> pair in this)
         {
-            keys.Add(pair.Key);
-            values.Add(pair.Value);
+            m_keys.Add(pair.Key);
+            m_values.Add(pair.Value);
         }
     }
 
@@ -28,13 +28,13 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
     {
         Clear();
 
-        if (keys.Count != values.Count)
-            throw new Exception(string.Format("there are {0} keys and {1} values after deserialization. Make sure that both key and value types are serializable.", keys.Count, values.Count));
+        if (m_keys.Count != m_values.Count)
+            throw new Exception(string.Format("there are {0} keys and {1} values after deserialization. Make sure that both key and value types are serializable.", m_keys.Count, m_values.Count));
 
-        for (int i = 0; i < keys.Count; i++)
-            Add(keys[i], values[i]);
+        for (int i = 0; i < m_keys.Count; i++)
+            Add(m_keys[i], m_values[i]);
 
-        keys = null;
-        values = null;
+        m_keys = null;
+        m_values = null;
     }
 }

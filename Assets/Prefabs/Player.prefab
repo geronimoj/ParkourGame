@@ -153,7 +153,6 @@ MonoBehaviour:
   gravity: 19.6
   sensitivity: 10
   minTurnTime: 0.1
-  inputTime: 0.1
   respawnPosition: {fileID: 0}
   camFol: {fileID: 0}
   forceRotateTime: 0.1
@@ -162,15 +161,21 @@ MonoBehaviour:
   lowLedgeHeight: 1
   vaultDistance: 2
   playerVaultHeight: 1
-  pullUpSpeed: 3
-  shimmySpeed: 1
   lowerGrabDist: 0.5
-  vertSpeedCancel: 0
-  floatTime: 0.5
-  maxDist: 2.5
-  minDist: 1.5
-  climbSpeed: 4
-  wallClimbAngle: 30
+  crouchMaxSpeed: 0
+  colliderStates:
+    m_keys: 0000000001000000
+    m_values:
+    - radius: 0.5
+      upperHeight: 1
+      lowerHeight: 0.5
+      orientation: {x: 0, y: 0, z: 0}
+      positionOffset: {x: 0, y: 0, z: 0}
+    - radius: 0.5
+      upperHeight: 0.25
+      lowerHeight: 0.5
+      orientation: {x: 0, y: 0, z: 0}
+      positionOffset: {x: 0, y: 0, z: 0}
   openSpaceRequired: 0.5
   atLedgeDistance: 0.1
 --- !u!114 &6921661593886013250
