@@ -10,6 +10,8 @@ using CustomController;
 [CreateAssetMenu(fileName = "GroundMove", menuName = "States/GroundMove State", order = 1)]
 public class GroundMoveState : State<PlayerController>
 {
+    [SerializeField]
+    private float inputCooldown = 0.1f;
     /// <summary>
     /// When the players speed is below this value, the player will accelerate using belowMinAcceleration
     /// </summary>
@@ -78,7 +80,7 @@ public class GroundMoveState : State<PlayerController>
         {   //Store whether we got an input for use later
             gotInput = true;
             //Reset the timer because we don't want it going off
-            inputTimer = ctrl.InputTime;
+            inputTimer = inputCooldown;
             //Get our movement direction
             Vector3 v = ctrl.GetAngle(x, y);
             //If we are moving in a new direction, reset the turn timer

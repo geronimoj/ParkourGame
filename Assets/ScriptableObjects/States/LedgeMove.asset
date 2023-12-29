@@ -19,3 +19,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1a20ba4610ecd134396859d2228c253b, type: 2}
   - {fileID: 11400000, guid: 5916a5d323f2b6f4cae59dc49addbd70, type: 2}
   IgnoreTransitions: 0101010000
+  shimmySpeed: 1

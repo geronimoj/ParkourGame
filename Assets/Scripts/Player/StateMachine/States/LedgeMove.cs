@@ -9,7 +9,12 @@ using CustomController;
 /// </summary>
 [CreateAssetMenu(fileName = "LedgeMove", menuName = "States/OnLedge", order = 5)]
 public class LedgeMove : State<PlayerController>
-{   
+{
+    /// <summary>
+    /// The speed at which the player can move along the ledge
+    /// </summary>
+    [SerializeField]
+    private float shimmySpeed = 1;
     /// <summary>
     /// Sets the players horizontal and vertical speed to 0
     /// </summary>
@@ -50,7 +55,7 @@ public class LedgeMove : State<PlayerController>
             if (x != 0 && Physics.Raycast(ctrl.colInfo.GetHighestPoint() + right * (x * ctrl.colInfo.Radius), ctrl.CheckDir, ctrl.CheckDirRange + 0.01f))
             {
                 //Get the movement Vector
-                Vector3 moveDir = right * x * ctrl.shimmySpeed * Time.deltaTime;
+                Vector3 moveDir = right * x * shimmySpeed * Time.deltaTime;
                 //Do a raycast from above the player at the expected movement position, if it returns false, the ledge is still there so we are allowed to move
                 if (Physics.Raycast(ctrl.colInfo.GetHighestPoint() + moveDir, ctrl.CheckDir, ctrl.CheckDirRange + 0.01f))
                     //Move the player

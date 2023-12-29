@@ -49,8 +49,6 @@ public class PlayerControllerEditor : Editor
 
     #region LedgeActions
 
-    SerializedProperty pullUpSpeed;
-    SerializedProperty shimmySpeed;
     SerializedProperty lowLedgeHeight;
     SerializedProperty ledgeSpaceRequire;
     SerializedProperty ledgeReach;
@@ -72,7 +70,6 @@ public class PlayerControllerEditor : Editor
 
     SerializedProperty speedText;
     SerializedProperty respawnPoint;
-    SerializedProperty inputTime;
 
     #endregion
     /// <summary>
@@ -104,11 +101,8 @@ public class PlayerControllerEditor : Editor
         #region Misc
         speedText = serializedObject.FindProperty("speedText");
         respawnPoint = serializedObject.FindProperty("respawnPosition");
-        inputTime = serializedObject.FindProperty("inputTime");
         #endregion
         stepHeight = serializedObject.FindProperty("stepHeight");
-        pullUpSpeed = serializedObject.FindProperty("pullUpSpeed");
-        shimmySpeed = serializedObject.FindProperty("shimmySpeed");
         lowLedgeHeight = serializedObject.FindProperty("lowLedgeHeight");
         ledgeSpaceRequire = serializedObject.FindProperty("openSpaceRequired");
         ledgeReach = serializedObject.FindProperty("atLedgeDistance");
@@ -165,11 +159,8 @@ public class PlayerControllerEditor : Editor
                         break;
                     case 4:
                         EditorGUILayout.PropertyField(lowerGrabDist);
-                        EditorGUILayout.PropertyField(pullUpSpeed);
-                        EditorGUILayout.PropertyField(shimmySpeed);
                         EditorGUILayout.PropertyField(ledgeSpaceRequire);
                         EditorGUILayout.PropertyField(ledgeReach);
-                        EditorGUILayout.PropertyField(stepHeight);
                         break;
                 }
 
@@ -177,7 +168,6 @@ public class PlayerControllerEditor : Editor
             case 4:
                 EditorGUILayout.PropertyField(speedText);
                 EditorGUILayout.PropertyField(respawnPoint);
-                EditorGUILayout.PropertyField(inputTime);
                 break;
             default:
                 DrawDefaultInspector();

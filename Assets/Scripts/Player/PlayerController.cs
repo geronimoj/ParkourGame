@@ -156,21 +156,6 @@ public class PlayerController : CustomController.PlayerController
 
     [NonSerialized] public float xEulerRotation = 0f;
     #endregion
-    /// <summary>
-    /// The time between button presses in which the player will not slow down
-    /// </summary>
-    [SerializeField]
-    private float inputTime = 0;
-    /// <summary>
-    /// A Get for inputTime
-    /// </summary>
-    public float InputTime
-    {
-        get
-        {
-            return inputTime;
-        }
-    }
 
     #region Movement
     /// <summary>
@@ -461,14 +446,6 @@ public class PlayerController : CustomController.PlayerController
     #endregion
 
     #region LedgeInfo
-    /// <summary>
-    /// The speed at which the player climbs up the ledge
-    /// </summary>
-    public float pullUpSpeed = 3;
-    /// <summary>
-    /// The speed at which the player can move along the ledge
-    /// </summary>
-    public float shimmySpeed = 1;
     /// <summary>
     /// How far above the ledge the player can be to grab it
     /// </summary>
