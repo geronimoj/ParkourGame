@@ -6,6 +6,7 @@ using StateMachine.Transitions;
 /// <summary>
 /// True when the slide button is released but should not enter a crouch state
 /// </summary>
+[CreateAssetMenu(fileName = "ExitSlide", menuName = "Transitions/Exit Slide", order = 1)]
 public class ExitSlide : Transition<PlayerController>
 {
     public override bool ShouldTransition(ref PlayerController ctrl)

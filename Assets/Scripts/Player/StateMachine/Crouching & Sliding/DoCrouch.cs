@@ -6,6 +6,7 @@ using StateMachine.Transitions;
 /// <summary>
 /// Handles slide & crouch logic
 /// </summary>
+[CreateAssetMenu(fileName = "DoCrouch", menuName = "Transitions/Do Crouch", order = 1)]
 public class DoCrouch : Transition<PlayerController>
 {
     public override bool ShouldTransition(ref PlayerController ctrl)

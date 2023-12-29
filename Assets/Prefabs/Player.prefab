@@ -167,13 +167,13 @@ MonoBehaviour:
     m_keys: 0000000001000000
     m_values:
     - radius: 0.5
-      upperHeight: 1
-      lowerHeight: 0.5
+      upperHeight: 0.5
+      lowerHeight: 1
       orientation: {x: 0, y: 0, z: 0}
       positionOffset: {x: 0, y: 0, z: 0}
     - radius: 0.5
       upperHeight: 0.25
-      lowerHeight: 0.5
+      lowerHeight: 1
       orientation: {x: 0, y: 0, z: 0}
       positionOffset: {x: 0, y: 0, z: 0}
   openSpaceRequired: 0.5

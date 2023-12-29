@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using StateMachine.States;
 
+[CreateAssetMenu(fileName = "SlideMove", menuName = "States/SlideMove State", order = 1)]
 public class SlideMoveState : State<PlayerController>
 {
     /// <summary>

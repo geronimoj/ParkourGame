@@ -6,6 +6,7 @@ using StateMachine.Transitions;
 /// <summary>
 /// Defines if the player should enter a slide
 /// </summary>
+[CreateAssetMenu(fileName = "DoSlide", menuName = "Transitions/Do Slide", order = 1)]
 public class DoSlide : Transition<PlayerController>
 {
     public override bool ShouldTransition(ref PlayerController ctrl)
