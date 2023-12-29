@@ -451,6 +451,19 @@ public class PlayerController : CustomController.PlayerController
     /// </summary>
     public float lowerGrabDist = 0.5f;
     #endregion
+
+    #region Crouch & Slide
+    /// <summary>
+    /// Move speed while crouching
+    /// </summary>
+    [SerializeField]
+    private float crouchMaxSpeed = 0f;
+    /// <summary>
+    /// Move speed while crouching
+    /// </summary>
+    public float CrouchSpeed => crouchMaxSpeed;
+    #endregion
+
     /// <summary>
     /// The distance into the ledge that must still be solid ground for the player to clamber up
     /// </summary>
