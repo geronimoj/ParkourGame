@@ -30,6 +30,7 @@ public class PlayerControllerEditor : Editor
     SerializedProperty decelleration;
     SerializedProperty gravity;
     SerializedProperty jumpForce;
+    SerializedProperty crouchSpeed;
 
     #endregion
 
@@ -91,6 +92,7 @@ public class PlayerControllerEditor : Editor
         decelleration = serializedObject.FindProperty("decelleration");
         gravity = serializedObject.FindProperty("gravity");
         jumpForce = serializedObject.FindProperty("jumpForce");
+        crouchSpeed = serializedObject.FindProperty("crouchMaxSpeed");
         #endregion
 
         #region Rotation
@@ -134,6 +136,7 @@ public class PlayerControllerEditor : Editor
                 EditorGUILayout.PropertyField(decelleration);
                 EditorGUILayout.PropertyField(gravity);
                 EditorGUILayout.PropertyField(jumpForce);
+                EditorGUILayout.PropertyField(crouchSpeed);
                 break;
             case 2:
                 EditorGUILayout.PropertyField(cameraFollower);

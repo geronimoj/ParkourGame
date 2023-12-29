@@ -135,7 +135,7 @@ MonoBehaviour:
       m_Bits: 2147483647
     collisionOffset: 0.01
     slopeAngle: 45
-    radius: 0.5
+    radius: 0.4
     lowerHeight: 1
     upperHeight: 0.5
     positionOffsetIsGlobal: 1
@@ -162,17 +162,17 @@ MonoBehaviour:
   vaultDistance: 2
   playerVaultHeight: 1
   lowerGrabDist: 0.5
-  crouchMaxSpeed: 0
+  crouchMaxSpeed: 3
   colliderStates:
     m_keys: 0000000001000000
     m_values:
-    - radius: 0.5
+    - radius: 0.4
       upperHeight: 0.5
       lowerHeight: 1
       orientation: {x: 0, y: 0, z: 0}
       positionOffset: {x: 0, y: 0, z: 0}
-    - radius: 0.5
-      upperHeight: 0.25
+    - radius: 0.4
+      upperHeight: -0.1
       lowerHeight: 1
       orientation: {x: 0, y: 0, z: 0}
       positionOffset: {x: 0, y: 0, z: 0}
