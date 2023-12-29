@@ -22,8 +22,8 @@ public class SlideMoveState : State<PlayerController>
         float speed = ctrl.HozSpeed;
         speed -= slideDecellerationRate * Time.deltaTime;
         // Clamp speed to crouch speed during slide. Will auto transition to crouch state when this condition is met.
-        if (speed < ctrl.CrouchSpeed)
-            speed = ctrl.CrouchSpeed;
+        if (speed < ctrl.CrouchSpeed - 1e-5f)
+            speed = ctrl.CrouchSpeed - 1e-5f; // Deduct a small amount to avoid floating point error
         // Set slide speed
         ctrl.HozSpeed = speed;
         // Actually move the player
