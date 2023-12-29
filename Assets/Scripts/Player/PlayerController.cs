@@ -655,10 +655,12 @@ public class PlayerController : CustomController.PlayerController
         if (colliderState == colliderToSet)
             return true;
 
-        colliderState = colliderToSet;
         // If applied, don't re-run apply logic.
         if (alreadyApplied)
+        {
+            colliderState = colliderToSet;
             return true;
+        }
 
         if (!colliderStates.TryGetValue(colliderToSet, out CapsualInfo collider))
             throw new NotImplementedException("Collider Type not implemented!");
@@ -667,6 +669,8 @@ public class PlayerController : CustomController.PlayerController
 
         if (!success)
             Debug.LogError("Failed to change collider: " + (CapsualValidateFailReason)failReason);
+        else
+            colliderState = colliderToSet;
 
         return success;
     }
