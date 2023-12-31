@@ -38,7 +38,7 @@ public struct MovementDirection
     {
         get
         {
-            return Vector3.Dot(dir, new Vector3(vec.x, 0, vec.z));
+            return Vector3.Dot(HozDirection, new Vector3(vec.x, 0, vec.z));
         }
         set
         {   
