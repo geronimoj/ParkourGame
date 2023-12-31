@@ -169,8 +169,6 @@ namespace CustomController
 #endif          
                 //MOVE
                 transform.Translate(dir, Space.World);
-                // Calculate actual velocity of the player
-                _trueVelocity = dir / Time.deltaTime;
 
 #if !COLLISION_CALL_IMMEDIATE
                 if (OnCollision != null)
@@ -180,6 +178,8 @@ namespace CustomController
 #endif
 
             }
+            // Calculate actual velocity of the player
+            _trueVelocity = dir / Time.deltaTime;
             //Do a raycast down to check if we are on the ground
             MoveToRaycasts(colInfo.GravityDirection * 1e-3f, out _);
             //Loop through the downwards raycast results and check if any of them meet the on ground conditions

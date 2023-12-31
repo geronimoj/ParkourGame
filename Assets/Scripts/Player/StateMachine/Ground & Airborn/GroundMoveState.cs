@@ -135,6 +135,9 @@ public class GroundMoveState : State<PlayerController>
         //Move the character
         ctrl.Move(moveVec);
         ctrl.CheckDir = ctrl.Direction;
+        // Clamp velocity from moving into terrain.
+        if (ctrl.HozSpeed > ctrl.TrueVelocity)
+            ctrl.HozSpeed = ctrl.TrueVelocity;
     }
 
     /// <summary>

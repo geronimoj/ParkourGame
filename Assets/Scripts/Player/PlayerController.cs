@@ -667,9 +667,7 @@ public class PlayerController : CustomController.PlayerController
 
         bool success = colInfo.ValidateColliderChanges(collider, true, out int failReason);
 
-        if (!success)
-            Debug.LogError("Failed to change collider: " + (CapsualValidateFailReason)failReason);
-        else
+        if (success)
             colliderState = colliderToSet;
 
         return success;

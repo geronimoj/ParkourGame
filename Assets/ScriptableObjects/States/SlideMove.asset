@@ -15,6 +15,7 @@ MonoBehaviour:
   transitions:
   - {fileID: 11400000, guid: 0eb42059dd3810341ba92cf26400e6e0, type: 2}
   - {fileID: 11400000, guid: 7c45d04ebfd931242ab1072a86329fa2, type: 2}
+  - {fileID: 11400000, guid: 7cce60ea8a6e84144a94ffd260669084, type: 2}
   - {fileID: 11400000, guid: 29e498ff80a365242ba8a96833d889e4, type: 2}
   IgnoreTransitions: 
   slideDecellerationRate: 4
