@@ -335,6 +335,8 @@ public class PlayerController : CustomController.PlayerController
     /// Set to true when you want to forcefully rotate the players camera to a target Rotation
     /// </summary>
     private bool rotateToAngle = false;
+
+    public bool ForceRotating => rotateToAngle;
     /// <summary>
     /// The speed at which the players camera rotates. This is automatically calculated
     /// </summary>

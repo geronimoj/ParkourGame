@@ -16,4 +16,30 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0eb42059dd3810341ba92cf26400e6e0, type: 2}
   - {fileID: 11400000, guid: c4de4b365af645349bc8b7b0f3263480, type: 2}
   IgnoreTransitions: 
+  angularDecelleration: 0.1
+  angularDecellerationMultiplier:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   inputCooldown: 0.1
+  quickTurnDecellerationRate: 0

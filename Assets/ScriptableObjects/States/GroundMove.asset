@@ -55,3 +55,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   inputCooldown: 0.1
+  quickTurnDecellerationRate: 35

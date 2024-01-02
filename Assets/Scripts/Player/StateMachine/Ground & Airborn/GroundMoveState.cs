@@ -16,6 +16,9 @@ public class GroundMoveState : State<PlayerController>
 
     [SerializeField]
     private float inputCooldown = 0.1f;
+
+    [SerializeField]
+    private float quickTurnDecellerationRate = 0f;
     /// <summary>
     /// When the players speed is below this value, the player will accelerate using belowMinAcceleration
     /// </summary>
@@ -46,6 +49,8 @@ public class GroundMoveState : State<PlayerController>
     /// Should the player slow down
     /// </summary>
     private bool slowDown = false;
+
+    private bool forceRotating = false;
     /// <summary>
     /// A timer used when smoothing the rotation between expectedDir and currentDir
     /// </summary>
@@ -106,8 +111,20 @@ public class GroundMoveState : State<PlayerController>
         /////////////ACCELERATION/////////////
         //If the direction the player wants to move in is in the opposite direction, we decellerate a bit
         slowDown = Vector3.Dot(ctrl.Direction, ctrl.ExpectedDir) < 0;
+
+        if (!forceRotating && quickTurnDecellerationRate > 0f)
+            forceRotating = ctrl.ForceRotating;
+
+        if (forceRotating)
+        {   // Stop force rotate once speed reaches 0
+            if (ctrl.HozSpeed == 0f)
+                forceRotating = false;
+            // If force rotating, decellerate
+            ctrl.HozSpeed -= quickTurnDecellerationRate * Time.deltaTime;
+            ctrl.HozSpeed = Mathf.Clamp(ctrl.HozSpeed, 0, ctrl.direction.MaxHozSpeed);
+        }
         //If we need to slowDown or we haven't gotten an input recently, decellerate, otherwise, accelerate
-        if (slowDown || !gotInput && newInput)
+        else if (slowDown || !gotInput && newInput)
         {   //Decellerate
             Accelerate(ctrl, true, true);
             //slowDownTime = (-ctrl.HozSpeed) / -ctrl.Decelleration;
@@ -116,20 +133,24 @@ public class GroundMoveState : State<PlayerController>
             //Accelerate
             Accelerate(ctrl, false, true);
 
-        //Is the player stationary & only just made an input
-        if (ctrl.HozSpeed <= 0 && newInput && gotInput)
+        // Only update movement direction if not force rotating
+        if (!forceRotating)
         {
-            //We got a new input so instantly start moving in the expected direction
-            ctrl.Direction = ctrl.ExpectedDir;
-            newInput = false;
-        }
-        else
-        {   //Calculate our rotation time
-            //if (!slowDown)
-            //    slowDownTime = ctrl.MinTurnTime;
-            //Start rotating to the expected direction in a specific time frame
-            ctrl.Direction = ctrl.ExpectedDir;
-            //ctrl.SmoothDirection(ctrl.ExpectedDir, slowDownTime, ref timer);
+            //Is the player stationary & only just made an input
+            if (ctrl.HozSpeed <= 0 && newInput && gotInput)
+            {
+                //We got a new input so instantly start moving in the expected direction
+                ctrl.Direction = ctrl.ExpectedDir;
+                newInput = false;
+            }
+            else
+            {   //Calculate our rotation time
+                //if (!slowDown)
+                //    slowDownTime = ctrl.MinTurnTime;
+                //Start rotating to the expected direction in a specific time frame
+                ctrl.Direction = ctrl.ExpectedDir;
+                //ctrl.SmoothDirection(ctrl.ExpectedDir, slowDownTime, ref timer);
+            }
         }
         //Calculate the movement vector
         Vector3 moveVec = ctrl.TotalVector * Time.deltaTime;
