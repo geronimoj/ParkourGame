@@ -11,6 +11,8 @@ using CustomController;
 public class GroundMoveState : State<PlayerController>
 {
     public float angularDecelleration = 0.1f;
+    [Tooltip("Multiplier based on magnitude of vector difference")]
+    public AnimationCurve angularDecellerationMultiplier;
 
     [SerializeField]
     private float inputCooldown = 0.1f;
@@ -161,9 +163,10 @@ public class GroundMoveState : State<PlayerController>
             ctrl.HozSpeed += acceleration * Time.deltaTime;
 
         Vector3 dif = ctrl.ExpectedDir - ctrl.direction.HozDirection;
-        float mag = dif.magnitude * Time.deltaTime;
+        float mag = dif.magnitude;
+        float multiplier = angularDecellerationMultiplier.Evaluate(mag);
 
-        ctrl.HozSpeed -= mag * angularDecelleration;
+        ctrl.HozSpeed -= mag * multiplier * angularDecelleration;
         //Make sure the caller wants the speed capped. There are some instances where this would not be wanted
         if (doClamp)
             ctrl.HozSpeed = Mathf.Clamp(ctrl.HozSpeed, 0, ctrl.direction.MaxHozSpeed);
