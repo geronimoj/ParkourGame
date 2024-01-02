@@ -10,6 +10,8 @@ using CustomController;
 [CreateAssetMenu(fileName = "GroundMove", menuName = "States/GroundMove State", order = 1)]
 public class GroundMoveState : State<PlayerController>
 {
+    public float angularDecelleration = 0.1f;
+
     [SerializeField]
     private float inputCooldown = 0.1f;
     /// <summary>
@@ -29,7 +31,7 @@ public class GroundMoveState : State<PlayerController>
     /// </summary>
     private float decelleration = 0f;
 
-    private float timer = 0;
+    //private float timer = 0;
     /// <summary>
     /// Did we get an input this frame
     /// </summary>
@@ -45,7 +47,7 @@ public class GroundMoveState : State<PlayerController>
     /// <summary>
     /// A timer used when smoothing the rotation between expectedDir and currentDir
     /// </summary>
-    private float slowDownTime = 0;
+    //private float slowDownTime = 0;
     /// <summary>
     /// The time since the last input
     /// </summary>
@@ -84,8 +86,8 @@ public class GroundMoveState : State<PlayerController>
             //Get our movement direction
             Vector3 v = ctrl.GetAngle(x, y);
             //If we are moving in a new direction, reset the turn timer
-            if (v != ctrl.ExpectedDir)
-                timer = 0;
+           // if (v != ctrl.ExpectedDir)
+                //timer = 0;
             ctrl.ExpectedDir = v;
         }
         else
@@ -106,7 +108,7 @@ public class GroundMoveState : State<PlayerController>
         if (slowDown || !gotInput && newInput)
         {   //Decellerate
             Accelerate(ctrl, true, true);
-            slowDownTime = (-ctrl.HozSpeed) / -ctrl.Decelleration;
+            //slowDownTime = (-ctrl.HozSpeed) / -ctrl.Decelleration;
         }
         else
             //Accelerate
@@ -121,10 +123,11 @@ public class GroundMoveState : State<PlayerController>
         }
         else
         {   //Calculate our rotation time
-            if (!slowDown)
-                slowDownTime = ctrl.MinTurnTime;
+            //if (!slowDown)
+            //    slowDownTime = ctrl.MinTurnTime;
             //Start rotating to the expected direction in a specific time frame
-            ctrl.SmoothDirection(ctrl.ExpectedDir, slowDownTime, ref timer);
+            ctrl.Direction = ctrl.ExpectedDir;
+            //ctrl.SmoothDirection(ctrl.ExpectedDir, slowDownTime, ref timer);
         }
         //Calculate the movement vector
         Vector3 moveVec = ctrl.TotalVector * Time.deltaTime;
@@ -156,6 +159,11 @@ public class GroundMoveState : State<PlayerController>
             ctrl.HozSpeed += belowMinAcceleration * Time.deltaTime;
         else
             ctrl.HozSpeed += acceleration * Time.deltaTime;
+
+        Vector3 dif = ctrl.ExpectedDir - ctrl.direction.HozDirection;
+        float mag = dif.magnitude * Time.deltaTime;
+
+        ctrl.HozSpeed -= mag * angularDecelleration;
         //Make sure the caller wants the speed capped. There are some instances where this would not be wanted
         if (doClamp)
             ctrl.HozSpeed = Mathf.Clamp(ctrl.HozSpeed, 0, ctrl.direction.MaxHozSpeed);
