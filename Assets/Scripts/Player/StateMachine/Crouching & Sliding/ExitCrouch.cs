@@ -8,7 +8,7 @@ public class ExitCrouch : Transition<PlayerController>
 {
     public override bool ShouldTransition(ref PlayerController ctrl)
     {
-        if (InputManager.GetInput("Crouch") == 0 && ctrl.SetColliderState(PlayerColliderState.Standing, false))
+        if (InputManager.GetInput("Crouch") == 0 && ctrl.ValidateColliderChange(PlayerColliderState.Standing))
         {
             return true;
         }

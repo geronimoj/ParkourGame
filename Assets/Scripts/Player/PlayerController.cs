@@ -652,7 +652,7 @@ public class PlayerController : CustomController.PlayerController
     /// <param name="colliderToSet">The collider state to switch too</param>
     /// <param name="alreadyApplied">Has the collider already been applied?</param>
     /// <returns>True if the collider was able to be changed or is already that. False otherwise</returns>
-    public bool SetColliderState(PlayerColliderState colliderToSet, bool alreadyApplied)
+    public bool SetColliderState(PlayerColliderState colliderToSet, bool alreadyApplied, bool forceApply = false)
     {   // No change
         if (colliderState == colliderToSet)
             return true;
@@ -671,7 +671,24 @@ public class PlayerController : CustomController.PlayerController
 
         if (success)
             colliderState = colliderToSet;
+        else if (!success && forceApply)
+        {
+            colInfo.ApplyColliderInfo(collider);
+            success = true;
+        }
 
+        return success;
+    }
+
+    public bool ValidateColliderChange(PlayerColliderState colliderToSet)
+    {   // No change
+        if (colliderState == colliderToSet)
+            return true;
+
+        if (!colliderStates.TryGetValue(colliderToSet, out CapsualInfo collider))
+            throw new NotImplementedException("Collider Type not implemented!");
+        // Only validate collider changes
+        bool success = colInfo.ValidateColliderChanges(collider, false, out int failReason);
         return success;
     }
 

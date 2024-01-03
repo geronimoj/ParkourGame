@@ -60,12 +60,15 @@ public class GroundMoveState : State<PlayerController>
     /// </summary>
     private float inputTimer;
 
+    public PlayerColliderState colliderState;
+
     /// <summary>
     /// Set us up for moving horizontally
     /// </summary>
     /// <param name="ctrl">A reference to the player controller</param>
     protected override void StateStart(ref PlayerController ctrl)
     {
+        ctrl.SetColliderState(colliderState, false, true);
         //Make sure our state is in the base state
         newInput = false;
         ctrl.direction.VertSpeed = 0;

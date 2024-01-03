@@ -43,3 +43,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   inputCooldown: 0.1
   quickTurnDecellerationRate: 0
+  colliderState: 1

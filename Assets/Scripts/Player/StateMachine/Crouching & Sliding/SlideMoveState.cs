@@ -16,6 +16,7 @@ public class SlideMoveState : State<PlayerController>
 
     protected override void StateStart(ref PlayerController ctrl)
     {
+        ctrl.SetColliderState(PlayerColliderState.Crouched, false, true);
         ctrl.camFol.positionOffset.y = -0.5f;
     }
 

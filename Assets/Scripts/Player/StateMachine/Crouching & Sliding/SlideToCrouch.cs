@@ -12,7 +12,7 @@ public class SlideToCrouch : Transition<PlayerController>
     public override bool ShouldTransition(ref PlayerController ctrl)
     {   // If we are at crouch speed, but cannot stand up, enter the crouch state
         if (ctrl.TrueVelocity <= ctrl.CrouchSpeed
-            && !ctrl.SetColliderState(PlayerColliderState.Standing, false))
+            && !ctrl.ValidateColliderChange(PlayerColliderState.Standing))
         {
             return true;
         }
