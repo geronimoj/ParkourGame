@@ -18,4 +18,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7cce60ea8a6e84144a94ffd260669084, type: 2}
   - {fileID: 11400000, guid: 29e498ff80a365242ba8a96833d889e4, type: 2}
   IgnoreTransitions: 
+  slideOffLedgeVertVelocity: 3
   slideDecellerationRate: 4

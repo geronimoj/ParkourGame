@@ -6,6 +6,8 @@ using StateMachine.States;
 [CreateAssetMenu(fileName = "SlideMove", menuName = "States/SlideMove State", order = 1)]
 public class SlideMoveState : State<PlayerController>
 {
+    [SerializeField]
+    private float slideOffLedgeVertVelocity = 1f;
     /// <summary>
     /// Rate at which the slide loses speed
     /// </summary>
@@ -33,5 +35,8 @@ public class SlideMoveState : State<PlayerController>
     protected override void StateEnd(ref PlayerController ctrl)
     {
         ctrl.camFol.positionOffset.y = 0f;
+
+        if (!ctrl.OnGround)
+            ctrl.VertSpeed -= slideOffLedgeVertVelocity;
     }
 }

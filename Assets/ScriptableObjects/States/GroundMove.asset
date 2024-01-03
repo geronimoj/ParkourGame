@@ -20,7 +20,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7c45d04ebfd931242ab1072a86329fa2, type: 2}
   - {fileID: 11400000, guid: 0eb42059dd3810341ba92cf26400e6e0, type: 2}
   IgnoreTransitions: 0000
-  angularDecelleration: 7.5
+  angularDecelleration: 3.5
   angularDecellerationMultiplier:
     serializedVersion: 2
     m_Curve:
