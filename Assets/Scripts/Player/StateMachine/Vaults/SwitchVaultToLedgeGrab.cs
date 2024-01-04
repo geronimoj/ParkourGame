@@ -7,7 +7,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "SwitchVaultLedgeGrab", menuName = "Transitions/SwitchVaultToLedgeGrab", order = 6)]
 public class SwitchVaultToLedgeGrab : AtLedge
 {
-    protected override Vector3 SetTopOfPlayer(ref PlayerController ctrl)
+    protected override Vector3 GetTopOfPlayer(ref PlayerController ctrl)
     {
         return ctrl.colInfo.GetLowestPoint();
     }
