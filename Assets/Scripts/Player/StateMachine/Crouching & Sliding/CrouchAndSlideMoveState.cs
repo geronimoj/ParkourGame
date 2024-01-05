@@ -65,6 +65,7 @@ public class CrouchAndSlideMoveState : GroundMoveState
             }
             // Set slide speed
             ctrl.HozSpeed = speed;
+            ctrl.CheckDir = ctrl.direction.HozDirection;
             // Actually move the player
             ctrl.Move(ctrl.TotalVector * Time.deltaTime);
         }
