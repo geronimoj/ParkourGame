@@ -15,7 +15,7 @@ public class DoClamberLedge : Transition<PlayerController>
     /// <returns>Returns true if there is enough solid ground and the player has the space bar pressed</returns>
     public override bool ShouldTransition(ref PlayerController ctrl)
     {   //Was the space bar pressed?
-        if (InputManager.GetInput("Jump") != 0) 
+        if (InputManager.NewInput("Jump") != 0) 
             if (Physics.Raycast(ctrl.colInfo.GetHighestPoint() + ctrl.CheckDir * (ctrl.colInfo.Radius + ctrl.openSpaceRequired) + Vector3.up * 0.05f, Vector3.down, 0.1f))
             return true;
         return false;
