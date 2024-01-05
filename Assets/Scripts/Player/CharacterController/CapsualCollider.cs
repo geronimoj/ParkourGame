@@ -523,9 +523,9 @@ namespace CustomController
         /// Fills _tempHits with colliders
         /// </summary>
         /// <returns></returns>
-        bool CheckForOverlap()
+        bool CheckForOverlap(Vector3 offset = default)
         {   // Get any overlapping colliders
-            int hit = Physics.OverlapCapsuleNonAlloc(GetUpperPoint(), GetLowerPoint(), TrueRadius - TINY_DEDUCTION, _tempHits, collisionLayers);
+            int hit = Physics.OverlapCapsuleNonAlloc(GetUpperPoint() + offset, GetLowerPoint() + offset, TrueRadius - TINY_DEDUCTION, _tempHits, collisionLayers);
 
             for (int i = 0; i < hit; i++)
             {   // If the collider is not our collider, assume we are going to clip into terrain.
@@ -566,10 +566,16 @@ namespace CustomController
         }
         #endregion
 
-        public override Collider[] GetOverlappingColliders()
+        public override Collider[] GetOverlappingColliders(Vector3 offset = default)
         {   // Ensure no colliders in temp hit
             ClearTempHits();
-            CheckForOverlap();
+            CheckForOverlap(offset);
+            // Remove our collider from the return results
+            for (int i = 0; i < _tempHits.Length; i++)
+            {   
+                if (_tempHits[i] == collider)
+                    _tempHits[i] = null;
+            }
             return _tempHits;
         }
 

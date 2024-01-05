@@ -18,6 +18,18 @@ public static class Extensions
     /// <returns>True if string is null or white spaces</returns>
     /// <remarks>This just calls string.IsNullOrWhiteSpace() Primarily for convenience</remarks>
     public static bool IsNullOrWhiteSpace(this string @string) => string.IsNullOrWhiteSpace(@string);
+
+    public static bool OnlyNullValues<T>(this T[] array)
+    {
+        if (array == null)
+            return true;
+
+        foreach (var value in array)
+            if (value != null)
+                return false;
+
+        return true;
+    }
     /// <summary>
     /// Returns true if the array is null or empty
     /// </summary>

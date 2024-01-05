@@ -153,8 +153,12 @@ public class AtLedge : Transition<PlayerController>
             Vector3 destination = hit.point + hit.normal * ctrl.colInfo.TrueRadius;
             // Put player below ledge
             destination.y = ledgeSurface.point.y - ctrl.colInfo.UpperHeight;
+            destination -= ctrl.transform.position;
+            // Check that the player can fit in the open space. If not, return fail
+            if (!ctrl.colInfo.GetOverlappingColliders(destination).OnlyNullValues())
+                return false;
             // Move player to be against the top of the ledge.
-            ctrl.Move(destination - ctrl.transform.position);
+            ctrl.Move(destination);
             
             // Set check direction for ledge movement
             Vector3 normal = hit.normal;

@@ -152,7 +152,7 @@ namespace CustomController
         /// Obtain any overlapping colliders
         /// </summary>
         /// <returns>A temporary array containing any overlapping colliders</returns>
-        public abstract Collider[] GetOverlappingColliders();
+        public abstract Collider[] GetOverlappingColliders(Vector3 offset = default);
 
         #region Raycasting
 
