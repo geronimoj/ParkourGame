@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: AtLedge
   m_EditorClassIdentifier: 
   targetState: {fileID: 11400000, guid: 9e72a24a55672864b93b6b290ecb5253, type: 2}
-  ledgeUpperLowerCheckRange: {x: 0.15, y: 0}
+  ledgeUpperLowerCheckRange: {x: 0, y: -0.15}
   ledgeCheckResolution: 5
   minLedgeWidth: 0.25
