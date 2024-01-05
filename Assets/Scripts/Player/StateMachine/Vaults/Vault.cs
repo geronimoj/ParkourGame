@@ -81,7 +81,7 @@ public class Vault : VaultBase
                 }
                 else
                 {   //Since we must be in the middle of the vault, enable the jump transition
-                    ToggleTransition(typeof(DidJump), false);
+                    ToggleTransition(typeof(DidJump), true);
                     //If the player previously pressed the jump key while in this state, force the next jump since the input will not be recorded as a new input for the DidJump transition
                     if (actionInputPressed)
                         ctrl.ForceJump = true;
@@ -116,7 +116,7 @@ public class Vault : VaultBase
             entryTimer += Time.deltaTime;
             if (InputManager.GetInput("Crouch") != 0)
             {
-                actionInputPressed = false;
+                 actionInputPressed = false;
                 type = VaultType.MonkeyVault;
             }
             else if (InputManager.GetInput("Grab") != 0
