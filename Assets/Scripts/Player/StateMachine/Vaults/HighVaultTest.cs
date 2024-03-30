@@ -31,7 +31,7 @@ public class HighVaultTest : HighVaultBase
         {
             camFol.positionOffset = Vector3.Lerp(Vector3.zero, ctrl.colInfo.PositionOffset, ToPeakPercentComplete);
             //Check if the player wants to do a spin vault
-            spinVault = InputManager.GetInput("Grab") != 0;
+            spinVault = InputManager.GetInput("Quick Turn") != 0;
             if (spinVault && Physics.Raycast(ctrl.transform.position + ctrl.direction.HozDirection * MoveDist, -ctrl.direction.HozDirection, out RaycastHit h, MoveDist))
             {
                 ctrl.CheckDir = -h.normal;

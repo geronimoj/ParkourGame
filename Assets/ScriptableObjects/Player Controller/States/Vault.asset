@@ -17,7 +17,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 13c29a65812986844a717f4d325662e2, type: 2}
   - {fileID: 11400000, guid: 17d31cdb1214b624ea4c5a1a764099b6, type: 2}
   IgnoreTransitions: 010100
-  ignoreTransition: 010001
   moveSpeedDuringState: 5.5
-  vaultEntryTime: 0.1
+  vaultEntryTime: 0.3
   vaultCameraAngle: -20

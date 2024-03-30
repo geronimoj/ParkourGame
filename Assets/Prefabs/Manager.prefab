@@ -62,8 +62,6 @@ MonoBehaviour:
     axisName: Mouse Y
   - name: Cancel
     axisName: Cancel
-  - name: Grab
-    axisName: Grab
 --- !u!114 &112162921094211869
 MonoBehaviour:
   m_ObjectHideFlags: 0

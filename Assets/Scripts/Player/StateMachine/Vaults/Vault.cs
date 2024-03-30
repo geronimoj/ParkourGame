@@ -119,7 +119,7 @@ public class Vault : VaultBase
                  actionInputPressed = false;
                 type = VaultType.MonkeyVault;
             }
-            else if (InputManager.GetInput("Grab") != 0
+            else if (InputManager.GetInput("Quick Turn") != 0
                 //Make sure we can perform the switch vault or 180 vault.
                 && !Physics.SphereCast(ctrl.colInfo.GetOriginPosition() + ctrl.direction.HozDirection * MoveDist,
                                         ctrl.colInfo.Radius + ctrl.colInfo.CollisionOffset,
